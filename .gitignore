@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# Testing & Coverage
+/coverage
+**/coverage
+
+# Production & Build outputs
+dist/
+**/dist/
+target/
+**/target/
+build/
+**/build/
+out/
+**/out/
+
+# Angular / Next / Framework caches
+.angular/
+**/.angular/
+.next/
+**/.next/
+.cache/
+**/.cache/
+
+# Java Compiled Class Files
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs & Environment
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE & Editors
+.idea/
+**/.idea/
+.vscode/
+**/.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# OS Temp Files
+.DS_Store
+Thumbs.db
+desktop.ini
