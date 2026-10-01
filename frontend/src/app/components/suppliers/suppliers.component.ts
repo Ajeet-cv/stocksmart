@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SupplierService } from '../../services/supplier.service';
@@ -13,8 +13,8 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, M
     <div class="space-y-6 animate-fade-in">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-extrabold text-white tracking-tight">Suppliers & Vendors</h2>
-          <p class="text-sm text-slate-400">Manage supplier profiles, contact details, and procurement partners</p>
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Suppliers & Vendors</h2>
+          <p class="text-sm text-slate-500 font-medium">Manage supplier profiles, contact details, and procurement partners</p>
         </div>
         <button (click)="openAddModal()" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
           <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> Add New Supplier
@@ -23,41 +23,41 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, M
 
       <!-- Suppliers Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div *ngFor="let sup of suppliers" class="glass-panel p-6 glass-panel-hover flex flex-col justify-between border-white/10">
+        <div *ngFor="let sup of suppliers" class="glass-panel p-6 glass-panel-hover flex flex-col justify-between border-slate-200">
           <div>
             <div class="flex items-center justify-between mb-4">
-              <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-lg">
+              <div class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-700 border border-cyan-200 flex items-center justify-center font-bold text-lg">
                 {{ sup.name.charAt(0).toUpperCase() }}
               </div>
               <div class="flex gap-2">
-                <button (click)="openEditModal(sup)" class="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 transition-all">
+                <button (click)="openEditModal(sup)" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all">
                   <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
                 </button>
-                <button (click)="confirmDelete(sup)" class="p-2 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-all">
+                <button (click)="confirmDelete(sup)" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all">
                   <lucide-icon [img]="TrashIcon" class="w-4 h-4"></lucide-icon>
                 </button>
               </div>
             </div>
 
-            <h3 class="text-lg font-bold text-white mb-3">{{ sup.name }}</h3>
+            <h3 class="text-lg font-bold text-slate-900 mb-3">{{ sup.name }}</h3>
 
-            <div class="space-y-2 text-sm text-slate-300">
+            <div class="space-y-2 text-sm text-slate-700">
               <div *ngIf="sup.email" class="flex items-center gap-2">
-                <lucide-icon [img]="MailIcon" class="w-4 h-4 text-cyan-400 flex-shrink-0"></lucide-icon>
-                <a [href]="'mailto:' + sup.email" class="hover:text-cyan-300 truncate">{{ sup.email }}</a>
+                <lucide-icon [img]="MailIcon" class="w-4 h-4 text-cyan-600 flex-shrink-0"></lucide-icon>
+                <a [href]="'mailto:' + sup.email" class="hover:text-cyan-700 truncate font-medium">{{ sup.email }}</a>
               </div>
               <div *ngIf="sup.phone" class="flex items-center gap-2">
-                <lucide-icon [img]="PhoneIcon" class="w-4 h-4 text-emerald-400 flex-shrink-0"></lucide-icon>
-                <a [href]="'tel:' + sup.phone" class="hover:text-emerald-300">{{ sup.phone }}</a>
+                <lucide-icon [img]="PhoneIcon" class="w-4 h-4 text-emerald-600 flex-shrink-0"></lucide-icon>
+                <a [href]="'tel:' + sup.phone" class="hover:text-emerald-700 font-medium">{{ sup.phone }}</a>
               </div>
               <div *ngIf="sup.address" class="flex items-start gap-2">
-                <lucide-icon [img]="MapPinIcon" class="w-4 h-4 text-purple-400 flex-shrink-0 mt-0.5"></lucide-icon>
-                <span class="text-slate-400 text-xs">{{ sup.address }}</span>
+                <lucide-icon [img]="MapPinIcon" class="w-4 h-4 text-purple-600 flex-shrink-0 mt-0.5"></lucide-icon>
+                <span class="text-slate-500 text-xs">{{ sup.address }}</span>
               </div>
             </div>
           </div>
 
-          <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+          <div class="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Vendor ID: #{{ sup.id }}</span>
             <span class="badge badge-cyan">Active Partner</span>
           </div>
@@ -68,8 +68,8 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, M
       <div *ngIf="showModal" class="modal-overlay">
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-white">{{ isEditing ? 'Edit Supplier' : 'Add Supplier' }}</h3>
-            <button (click)="showModal = false" class="text-slate-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <h3 class="text-xl font-bold text-slate-900">{{ isEditing ? 'Edit Supplier' : 'Add Supplier' }}</h3>
+            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
           </div>
 
           <form (ngSubmit)="saveSupplier()" class="space-y-4">
@@ -95,7 +95,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, M
               <textarea [(ngModel)]="formData.address" name="address" rows="2" placeholder="742 Evergreen Terrace..." class="form-textarea"></textarea>
             </div>
 
-            <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
               <button type="button" (click)="showModal = false" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="gradient-btn-primary px-6 py-2.5 rounded-xl font-bold text-sm">
                 {{ isEditing ? 'Update Supplier' : 'Create Supplier' }}
@@ -108,8 +108,8 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, M
       <!-- Delete Modal -->
       <div *ngIf="showDeleteModal" class="modal-overlay">
         <div class="modal-card max-w-md">
-          <h3 class="text-xl font-bold text-white mb-2">Delete Supplier</h3>
-          <p class="text-sm text-slate-300 mb-6">Are you sure you want to delete <strong class="text-white">{{ selectedSupplier?.name }}</strong>?</p>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Delete Supplier</h3>
+          <p class="text-sm text-slate-600 mb-6">Are you sure you want to delete <strong class="text-slate-900">{{ selectedSupplier?.name }}</strong>?</p>
           <div class="flex justify-end gap-3">
             <button (click)="showDeleteModal = false" class="btn btn-secondary">Cancel</button>
             <button (click)="deleteSupplier()" class="btn btn-danger">Delete</button>
@@ -145,7 +145,10 @@ export class SuppliersComponent implements OnInit {
     address: ''
   };
 
-  constructor(private supplierService: SupplierService) {}
+  constructor(
+    private supplierService: SupplierService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.loadSuppliers();
@@ -153,7 +156,14 @@ export class SuppliersComponent implements OnInit {
 
   loadSuppliers() {
     this.supplierService.getAll().subscribe({
-      next: (data) => (this.suppliers = data || [])
+      next: (data) => {
+        this.suppliers = data || [];
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load suppliers', err);
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -179,6 +189,7 @@ export class SuppliersComponent implements OnInit {
         next: () => {
           this.showModal = false;
           this.loadSuppliers();
+          this.cdr.detectChanges();
         }
       });
     } else {
@@ -186,6 +197,7 @@ export class SuppliersComponent implements OnInit {
         next: () => {
           this.showModal = false;
           this.loadSuppliers();
+          this.cdr.detectChanges();
         }
       });
     }
@@ -202,6 +214,7 @@ export class SuppliersComponent implements OnInit {
       next: () => {
         this.showDeleteModal = false;
         this.loadSuppliers();
+        this.cdr.detectChanges();
       }
     });
   }

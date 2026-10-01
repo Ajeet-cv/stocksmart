@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
@@ -13,8 +13,8 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Layers, X } from 'luc
     <div class="space-y-6 animate-fade-in">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-extrabold text-white tracking-tight">Product Categories</h2>
-          <p class="text-sm text-slate-400">Group and classify inventory items for easy tracking</p>
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Product Categories</h2>
+          <p class="text-sm text-slate-500 font-medium">Group and classify inventory items for easy tracking</p>
         </div>
         <button (click)="openAddModal()" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
           <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> Add New Category
@@ -23,26 +23,26 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Layers, X } from 'luc
 
       <!-- Categories Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div *ngFor="let cat of categories" class="glass-panel p-6 glass-panel-hover flex flex-col justify-between border-white/10">
+        <div *ngFor="let cat of categories" class="glass-panel p-6 glass-panel-hover flex flex-col justify-between border-slate-200">
           <div>
             <div class="flex items-center justify-between mb-4">
-              <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center">
                 <lucide-icon [img]="LayersIcon" class="w-5 h-5"></lucide-icon>
               </div>
               <div class="flex gap-2">
-                <button (click)="openEditModal(cat)" class="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 transition-all">
+                <button (click)="openEditModal(cat)" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all">
                   <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
                 </button>
-                <button (click)="confirmDelete(cat)" class="p-2 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-all">
+                <button (click)="confirmDelete(cat)" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all">
                   <lucide-icon [img]="TrashIcon" class="w-4 h-4"></lucide-icon>
                 </button>
               </div>
             </div>
-            <h3 class="text-lg font-bold text-white mb-1">{{ cat.name }}</h3>
-            <p class="text-sm text-slate-300 leading-relaxed">{{ cat.description || 'No description provided' }}</p>
+            <h3 class="text-lg font-bold text-slate-900 mb-1">{{ cat.name }}</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">{{ cat.description || 'No description provided' }}</p>
           </div>
 
-          <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+          <div class="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Category ID: #{{ cat.id }}</span>
             <span class="badge badge-indigo">Active Category</span>
           </div>
@@ -53,8 +53,8 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Layers, X } from 'luc
       <div *ngIf="showModal" class="modal-overlay">
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-white">{{ isEditing ? 'Edit Category' : 'Add Category' }}</h3>
-            <button (click)="showModal = false" class="text-slate-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <h3 class="text-xl font-bold text-slate-900">{{ isEditing ? 'Edit Category' : 'Add Category' }}</h3>
+            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
           </div>
 
           <form (ngSubmit)="saveCategory()" class="space-y-4">
@@ -68,7 +68,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Layers, X } from 'luc
               <textarea [(ngModel)]="formData.description" name="description" rows="3" placeholder="Category details..." class="form-textarea"></textarea>
             </div>
 
-            <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
               <button type="button" (click)="showModal = false" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="gradient-btn-primary px-6 py-2.5 rounded-xl font-bold text-sm">
                 {{ isEditing ? 'Update' : 'Create' }}
@@ -81,8 +81,8 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Layers, X } from 'luc
       <!-- Delete Confirmation Modal -->
       <div *ngIf="showDeleteModal" class="modal-overlay">
         <div class="modal-card max-w-md">
-          <h3 class="text-xl font-bold text-white mb-2">Delete Category</h3>
-          <p class="text-sm text-slate-300 mb-6">Are you sure you want to delete <strong class="text-white">{{ selectedCategory?.name }}</strong>?</p>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Delete Category</h3>
+          <p class="text-sm text-slate-600 mb-6">Are you sure you want to delete <strong class="text-slate-900">{{ selectedCategory?.name }}</strong>?</p>
           <div class="flex justify-end gap-3">
             <button (click)="showDeleteModal = false" class="btn btn-secondary">Cancel</button>
             <button (click)="deleteCategory()" class="btn btn-danger">Delete</button>
@@ -113,7 +113,10 @@ export class CategoriesComponent implements OnInit {
     description: ''
   };
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(
+    private categoryService: CategoryService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.loadCategories();
@@ -121,7 +124,14 @@ export class CategoriesComponent implements OnInit {
 
   loadCategories() {
     this.categoryService.getAll().subscribe({
-      next: (data) => (this.categories = data || [])
+      next: (data) => {
+        this.categories = data || [];
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load categories', err);
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -147,6 +157,7 @@ export class CategoriesComponent implements OnInit {
         next: () => {
           this.showModal = false;
           this.loadCategories();
+          this.cdr.detectChanges();
         }
       });
     } else {
@@ -154,6 +165,7 @@ export class CategoriesComponent implements OnInit {
         next: () => {
           this.showModal = false;
           this.loadCategories();
+          this.cdr.detectChanges();
         }
       });
     }
@@ -170,6 +182,7 @@ export class CategoriesComponent implements OnInit {
       next: () => {
         this.showDeleteModal = false;
         this.loadCategories();
+        this.cdr.detectChanges();
       }
     });
   }

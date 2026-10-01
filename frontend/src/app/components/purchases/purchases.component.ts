@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PurchaseService } from '../../services/purchase.service';
@@ -20,8 +20,8 @@ import { LucideAngularModule, Plus, ShoppingBag, Search, X, CheckCircle2, Dollar
       <!-- Header -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-extrabold text-white tracking-tight">Purchase Orders & Receiving</h2>
-          <p class="text-sm text-slate-400">Receive stock orders from vendor partners and update warehouse inventory</p>
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Purchase Orders & Receiving</h2>
+          <p class="text-sm text-slate-500 font-medium">Receive stock orders from vendor partners and update warehouse inventory</p>
         </div>
         <button (click)="openReceiveModal()" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
           <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> Receive Purchase Order
@@ -29,13 +29,13 @@ import { LucideAngularModule, Plus, ShoppingBag, Search, X, CheckCircle2, Dollar
       </div>
 
       <!-- Toast -->
-      <div *ngIf="toastMessage" class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-sm font-semibold flex items-center justify-between">
+      <div *ngIf="toastMessage" class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center justify-between">
         <span>{{ toastMessage }}</span>
-        <button (click)="toastMessage = ''" class="text-amber-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
+        <button (click)="toastMessage = ''" class="text-emerald-600 hover:text-emerald-900"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
       </div>
 
       <!-- Purchases History Table -->
-      <div class="glass-panel overflow-hidden border-white/10">
+      <div class="glass-panel overflow-hidden border-slate-200">
         <div class="table-container">
           <table class="data-table">
             <thead>
@@ -50,24 +50,24 @@ import { LucideAngularModule, Plus, ShoppingBag, Search, X, CheckCircle2, Dollar
             </thead>
             <tbody>
               <tr *ngIf="purchases.length === 0">
-                <td colspan="6" class="text-center py-8 text-slate-400">
+                <td colspan="6" class="text-center py-8 text-slate-500">
                   No purchase orders recorded yet. Click "Receive Purchase Order" to log a new inventory receipt.
                 </td>
               </tr>
               <tr *ngFor="let p of purchases">
-                <td class="font-mono text-xs font-bold text-amber-400">#PO-{{ p.id }}</td>
+                <td class="font-mono text-xs font-bold text-blue-600">#PO-{{ p.id }}</td>
                 <td>
-                  <div class="font-bold text-slate-100">{{ p.supplier?.name }}</div>
-                  <div class="text-xs text-slate-400">{{ p.supplier?.email || 'No email' }}</div>
+                  <div class="font-bold text-slate-900">{{ p.supplier?.name }}</div>
+                  <div class="text-xs text-slate-500">{{ p.supplier?.email || 'No email' }}</div>
                 </td>
-                <td class="font-semibold text-slate-200">{{ p.location?.name }}</td>
-                <td class="font-extrabold text-amber-400 text-base">\${{ p.totalAmount }}</td>
+                <td class="font-semibold text-slate-700">{{ p.location?.name }}</td>
+                <td class="font-extrabold text-slate-900 text-base">\${{ p.totalAmount }}</td>
                 <td>
-                  <span class="badge badge-amber flex items-center gap-1">
+                  <span class="badge badge-emerald flex items-center gap-1">
                     <lucide-icon [img]="CheckIcon" class="w-3 h-3"></lucide-icon> Received
                   </span>
                 </td>
-                <td class="text-xs text-slate-400">{{ p.purchaseDate ? (p.purchaseDate | date:'medium') : 'Recent' }}</td>
+                <td class="text-xs text-slate-500 font-medium">{{ p.purchaseDate ? (p.purchaseDate | date:'medium') : 'Recent' }}</td>
               </tr>
             </tbody>
           </table>
@@ -78,10 +78,10 @@ import { LucideAngularModule, Plus, ShoppingBag, Search, X, CheckCircle2, Dollar
       <div *ngIf="showModal" class="modal-overlay">
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-white flex items-center gap-2">
-              <lucide-icon [img]="ShoppingBagIcon" class="w-5 h-5 text-amber-400"></lucide-icon> Receive Purchase Order
+            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <lucide-icon [img]="ShoppingBagIcon" class="w-5 h-5 text-blue-600"></lucide-icon> Receive Purchase Order
             </h3>
-            <button (click)="showModal = false" class="text-slate-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
           </div>
 
           <form (ngSubmit)="submitReceive()" class="space-y-4">
@@ -121,12 +121,12 @@ import { LucideAngularModule, Plus, ShoppingBag, Search, X, CheckCircle2, Dollar
               </div>
             </div>
 
-            <div class="p-4 rounded-xl bg-slate-900 border border-white/10 flex justify-between items-center text-sm">
-              <span class="text-slate-400">Total Purchase Value:</span>
-              <strong class="text-amber-400 font-extrabold text-lg">\${{ (form.quantity * form.unitCost).toFixed(2) }}</strong>
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex justify-between items-center text-sm">
+              <span class="text-slate-600 font-medium">Total Purchase Value:</span>
+              <strong class="text-blue-600 font-extrabold text-lg">\${{ (form.quantity * form.unitCost).toFixed(2) }}</strong>
             </div>
 
-            <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
               <button type="button" (click)="showModal = false" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="gradient-btn-primary px-6 py-2.5 rounded-xl font-bold text-sm">Receive & Update Stock</button>
             </div>
@@ -164,7 +164,8 @@ export class PurchasesComponent implements OnInit {
     private purchaseService: PurchaseService,
     private supplierService: SupplierService,
     private locationService: LocationService,
-    private productService: ProductService
+    private productService: ProductService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -174,14 +175,21 @@ export class PurchasesComponent implements OnInit {
 
   loadPurchases() {
     this.purchaseService.getAll().subscribe({
-      next: (data) => (this.purchases = data || [])
+      next: (data) => {
+        this.purchases = data || [];
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load purchases', err);
+        this.cdr.detectChanges();
+      }
     });
   }
 
   loadDependencies() {
-    this.supplierService.getAll().subscribe({ next: (data) => (this.suppliers = data || []) });
-    this.locationService.getAll().subscribe({ next: (data) => (this.locations = data || []) });
-    this.productService.getAll().subscribe({ next: (data) => (this.products = data || []) });
+    this.supplierService.getAll().subscribe({ next: (data) => { this.suppliers = data || []; this.cdr.detectChanges(); } });
+    this.locationService.getAll().subscribe({ next: (data) => { this.locations = data || []; this.cdr.detectChanges(); } });
+    this.productService.getAll().subscribe({ next: (data) => { this.products = data || []; this.cdr.detectChanges(); } });
   }
 
   openReceiveModal() {
@@ -209,7 +217,11 @@ export class PurchasesComponent implements OnInit {
         this.showModal = false;
         this.loadPurchases();
         this.toastMessage = 'Purchase order received & inventory increased successfully!';
-        setTimeout(() => (this.toastMessage = ''), 4000);
+        this.cdr.detectChanges();
+        setTimeout(() => {
+          this.toastMessage = '';
+          this.cdr.detectChanges();
+        }, 4000);
       },
       error: (err) => alert('Failed to receive purchase order: ' + (err?.error?.message || err?.message))
     });

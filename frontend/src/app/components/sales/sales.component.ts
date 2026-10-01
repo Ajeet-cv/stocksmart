@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SaleService } from '../../services/sale.service';
@@ -18,8 +18,8 @@ import { LucideAngularModule, Plus, ShoppingCart, Search, X, CheckCircle2, User,
       <!-- Header -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-extrabold text-white tracking-tight">Sales Orders & Point of Sale</h2>
-          <p class="text-sm text-slate-400">Process customer sales, fulfill orders, and automatically adjust stock levels</p>
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Sales Orders & Point of Sale</h2>
+          <p class="text-sm text-slate-500 font-medium">Process customer sales, fulfill orders, and automatically adjust stock levels</p>
         </div>
         <button (click)="openCreateSaleModal()" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
           <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> New Sale Order
@@ -27,13 +27,13 @@ import { LucideAngularModule, Plus, ShoppingCart, Search, X, CheckCircle2, User,
       </div>
 
       <!-- Toast -->
-      <div *ngIf="toastMessage" class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm font-semibold flex items-center justify-between">
+      <div *ngIf="toastMessage" class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center justify-between">
         <span>{{ toastMessage }}</span>
-        <button (click)="toastMessage = ''" class="text-emerald-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
+        <button (click)="toastMessage = ''" class="text-emerald-600 hover:text-emerald-900"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
       </div>
 
       <!-- Sales History Data Table -->
-      <div class="glass-panel overflow-hidden border-white/10">
+      <div class="glass-panel overflow-hidden border-slate-200">
         <div class="table-container">
           <table class="data-table">
             <thead>
@@ -48,23 +48,23 @@ import { LucideAngularModule, Plus, ShoppingCart, Search, X, CheckCircle2, User,
             </thead>
             <tbody>
               <tr *ngIf="sales.length === 0">
-                <td colspan="6" class="text-center py-8 text-slate-400">
+                <td colspan="6" class="text-center py-8 text-slate-500">
                   No sales orders recorded yet. Click "New Sale Order" to record a transaction.
                 </td>
               </tr>
               <tr *ngFor="let s of sales">
-                <td class="font-mono text-xs font-bold text-indigo-400">#ORD-{{ s.id }}</td>
+                <td class="font-mono text-xs font-bold text-blue-600">#ORD-{{ s.id }}</td>
                 <td>
-                  <div class="font-bold text-slate-100">{{ s.customerName }}</div>
+                  <div class="font-bold text-slate-900">{{ s.customerName }}</div>
                 </td>
-                <td class="font-semibold text-slate-200">{{ s.location?.name }}</td>
-                <td class="font-extrabold text-emerald-400 text-base">\${{ s.totalAmount }}</td>
+                <td class="font-semibold text-slate-700">{{ s.location?.name }}</td>
+                <td class="font-extrabold text-emerald-600 text-base">\${{ s.totalAmount }}</td>
                 <td>
                   <span class="badge badge-emerald flex items-center gap-1">
                     <lucide-icon [img]="CheckIcon" class="w-3 h-3"></lucide-icon> Completed
                   </span>
                 </td>
-                <td class="text-xs text-slate-400">{{ s.saleDate ? (s.saleDate | date:'medium') : 'Recent' }}</td>
+                <td class="text-xs text-slate-500 font-medium">{{ s.saleDate ? (s.saleDate | date:'medium') : 'Recent' }}</td>
               </tr>
             </tbody>
           </table>
@@ -75,10 +75,10 @@ import { LucideAngularModule, Plus, ShoppingCart, Search, X, CheckCircle2, User,
       <div *ngIf="showModal" class="modal-overlay">
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-white flex items-center gap-2">
-              <lucide-icon [img]="ShoppingCartIcon" class="w-5 h-5 text-emerald-400"></lucide-icon> Create New Sale Order
+            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <lucide-icon [img]="ShoppingCartIcon" class="w-5 h-5 text-emerald-600"></lucide-icon> Create New Sale Order
             </h3>
-            <button (click)="showModal = false" class="text-slate-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
           </div>
 
           <form (ngSubmit)="submitCreateSale()" class="space-y-4">
@@ -108,12 +108,12 @@ import { LucideAngularModule, Plus, ShoppingCart, Search, X, CheckCircle2, User,
               <input type="number" min="1" [(ngModel)]="form.quantity" name="quantity" required placeholder="1" class="form-input" />
             </div>
 
-            <div class="p-4 rounded-xl bg-slate-900 border border-white/10 flex justify-between items-center text-sm">
-              <span class="text-slate-400">Order Estimated Total:</span>
-              <strong class="text-emerald-400 font-extrabold text-lg">\${{ calculateTotal().toFixed(2) }}</strong>
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex justify-between items-center text-sm">
+              <span class="text-slate-600 font-medium">Order Estimated Total:</span>
+              <strong class="text-emerald-600 font-extrabold text-lg">\${{ calculateTotal().toFixed(2) }}</strong>
             </div>
 
-            <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
               <button type="button" (click)="showModal = false" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="gradient-btn-primary px-6 py-2.5 rounded-xl font-bold text-sm">Fulfill Sale Order</button>
             </div>
@@ -150,7 +150,8 @@ export class SalesComponent implements OnInit {
   constructor(
     private saleService: SaleService,
     private locationService: LocationService,
-    private productService: ProductService
+    private productService: ProductService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -160,13 +161,20 @@ export class SalesComponent implements OnInit {
 
   loadSales() {
     this.saleService.getAll().subscribe({
-      next: (data) => (this.sales = data || [])
+      next: (data) => {
+        this.sales = data || [];
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load sales', err);
+        this.cdr.detectChanges();
+      }
     });
   }
 
   loadDependencies() {
-    this.locationService.getAll().subscribe({ next: (data) => (this.locations = data || []) });
-    this.productService.getAll().subscribe({ next: (data) => (this.products = data || []) });
+    this.locationService.getAll().subscribe({ next: (data) => { this.locations = data || []; this.cdr.detectChanges(); } });
+    this.productService.getAll().subscribe({ next: (data) => { this.products = data || []; this.cdr.detectChanges(); } });
   }
 
   openCreateSaleModal() {
@@ -205,7 +213,11 @@ export class SalesComponent implements OnInit {
         this.showModal = false;
         this.loadSales();
         this.toastMessage = 'Sale order created & inventory deducted successfully!';
-        setTimeout(() => (this.toastMessage = ''), 4000);
+        this.cdr.detectChanges();
+        setTimeout(() => {
+          this.toastMessage = '';
+          this.cdr.detectChanges();
+        }, 4000);
       },
       error: (err) => alert('Failed to create sale order: ' + (err?.error?.message || err?.message))
     });

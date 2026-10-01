@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InventoryService } from '../../services/inventory.service';
@@ -18,8 +18,8 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
       <!-- Header -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-extrabold text-white tracking-tight">Stock & Inventory Management</h2>
-          <p class="text-sm text-slate-400">Track stock levels, record additions, adjustments, and inter-warehouse transfers</p>
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Stock & Inventory Management</h2>
+          <p class="text-sm text-slate-500 font-medium">Track stock levels, record additions, adjustments, and inter-warehouse transfers</p>
         </div>
         <div class="flex items-center gap-3 flex-wrap">
           <button (click)="openAddModal()" class="gradient-btn-primary px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
@@ -28,7 +28,7 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
           <button (click)="openRemoveModal()" class="btn btn-secondary text-sm flex items-center gap-2">
             <lucide-icon [img]="MinusIcon" class="w-4 h-4"></lucide-icon> Deduct Stock
           </button>
-          <button (click)="openTransferModal()" class="btn btn-secondary text-sm flex items-center gap-2 text-indigo-400 border-indigo-500/30">
+          <button (click)="openTransferModal()" class="btn btn-secondary text-sm flex items-center gap-2 text-blue-600 border-blue-200 hover:bg-blue-50">
             <lucide-icon [img]="TransferIcon" class="w-4 h-4"></lucide-icon> Transfer Stock
           </button>
         </div>
@@ -48,25 +48,25 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
           </select>
 
           <button (click)="toggleLowStockOnly()" 
-                  [class.bg-amber-500\/20]="showOnlyLowStock" 
-                  [class.border-amber-500\/40]="showOnlyLowStock"
-                  [class.text-amber-400]="showOnlyLowStock"
+                  [class.bg-amber-50]="showOnlyLowStock" 
+                  [class.border-amber-200]="showOnlyLowStock"
+                  [class.text-amber-700]="showOnlyLowStock"
                   class="btn btn-secondary text-xs flex items-center gap-2 whitespace-nowrap">
-            <lucide-icon [img]="AlertIcon" class="w-4 h-4"></lucide-icon> Low Stock Only
+            <lucide-icon [img]="AlertIcon" class="w-4 h-4 text-amber-600"></lucide-icon> Low Stock Only
           </button>
         </div>
 
-        <span class="text-xs text-slate-400 font-semibold">{{ filteredInventory.length }} Stock Records</span>
+        <span class="text-xs text-slate-500 font-semibold">{{ filteredInventory.length }} Stock Records</span>
       </div>
 
       <!-- Notification Toast -->
-      <div *ngIf="toastMessage" class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm font-semibold flex items-center justify-between">
+      <div *ngIf="toastMessage" class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center justify-between">
         <span>{{ toastMessage }}</span>
-        <button (click)="toastMessage = ''" class="text-emerald-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
+        <button (click)="toastMessage = ''" class="text-emerald-600 hover:text-emerald-900"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
       </div>
 
       <!-- Inventory Data Table -->
-      <div class="glass-panel overflow-hidden border-white/10">
+      <div class="glass-panel overflow-hidden border-slate-200">
         <div class="table-container">
           <table class="data-table">
             <thead>
@@ -82,24 +82,24 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
             </thead>
             <tbody>
               <tr *ngIf="filteredInventory.length === 0">
-                <td colspan="7" class="text-center py-8 text-slate-400">
+                <td colspan="7" class="text-center py-8 text-slate-500">
                   No stock records found matching your filters.
                 </td>
               </tr>
               <tr *ngFor="let inv of filteredInventory">
-                <td class="font-mono text-xs font-bold text-indigo-400">{{ inv.product?.sku }}</td>
+                <td class="font-mono text-xs font-bold text-blue-600">{{ inv.product?.sku }}</td>
                 <td>
-                  <div class="font-bold text-slate-100">{{ inv.product?.name }}</div>
-                  <div class="text-xs text-slate-400">\${{ inv.product?.price }} / unit</div>
+                  <div class="font-bold text-slate-900">{{ inv.product?.name }}</div>
+                  <div class="text-xs text-slate-500">\${{ inv.product?.price }} / unit</div>
                 </td>
-                <td class="font-semibold text-slate-200">{{ inv.location?.name }}</td>
+                <td class="font-semibold text-slate-700">{{ inv.location?.name }}</td>
                 <td>
                   <span class="badge badge-indigo">{{ inv.location?.type || 'Warehouse' }}</span>
                 </td>
-                <td class="font-extrabold text-lg" [class.text-amber-400]="inv.quantity <= (inv.product?.reorderLevel || 10)" [class.text-emerald-400]="inv.quantity > (inv.product?.reorderLevel || 10)">
+                <td class="font-extrabold text-lg" [class.text-amber-700]="inv.quantity <= (inv.product?.reorderLevel || 10)" [class.text-emerald-700]="inv.quantity > (inv.product?.reorderLevel || 10)">
                   {{ inv.quantity }} units
                 </td>
-                <td class="text-slate-400 text-xs">{{ inv.product?.reorderLevel || 10 }} units</td>
+                <td class="text-slate-500 text-xs font-medium">{{ inv.product?.reorderLevel || 10 }} units</td>
                 <td>
                   <span *ngIf="inv.quantity <= (inv.product?.reorderLevel || 10)" class="badge badge-amber flex items-center gap-1">
                     <lucide-icon [img]="AlertIcon" class="w-3 h-3"></lucide-icon> Low Stock
@@ -118,10 +118,10 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
       <div *ngIf="showAddModal" class="modal-overlay">
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-white flex items-center gap-2">
-              <lucide-icon [img]="PlusIcon" class="w-5 h-5 text-indigo-400"></lucide-icon> Add Stock to Location
+            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <lucide-icon [img]="PlusIcon" class="w-5 h-5 text-blue-600"></lucide-icon> Add Stock to Location
             </h3>
-            <button (click)="showAddModal = false" class="text-slate-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showAddModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
           </div>
 
           <form (ngSubmit)="submitAddStock()" class="space-y-4">
@@ -146,7 +146,7 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
               <input type="number" min="1" [(ngModel)]="stockForm.quantity" name="quantity" required placeholder="50" class="form-input" />
             </div>
 
-            <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
               <button type="button" (click)="showAddModal = false" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="gradient-btn-primary px-6 py-2.5 rounded-xl font-bold text-sm">Confirm Stock Addition</button>
             </div>
@@ -158,10 +158,10 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
       <div *ngIf="showRemoveModal" class="modal-overlay">
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-white flex items-center gap-2">
-              <lucide-icon [img]="MinusIcon" class="w-5 h-5 text-rose-400"></lucide-icon> Deduct / Adjust Stock
+            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <lucide-icon [img]="MinusIcon" class="w-5 h-5 text-rose-600"></lucide-icon> Deduct / Adjust Stock
             </h3>
-            <button (click)="showRemoveModal = false" class="text-slate-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showRemoveModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
           </div>
 
           <form (ngSubmit)="submitRemoveStock()" class="space-y-4">
@@ -186,7 +186,7 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
               <input type="number" min="1" [(ngModel)]="stockForm.quantity" name="quantity" required placeholder="10" class="form-input" />
             </div>
 
-            <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
               <button type="button" (click)="showRemoveModal = false" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="btn btn-danger px-6 py-2.5 rounded-xl font-bold text-sm">Deduct Stock</button>
             </div>
@@ -198,10 +198,10 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
       <div *ngIf="showTransferModal" class="modal-overlay">
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-white flex items-center gap-2">
-              <lucide-icon [img]="TransferIcon" class="w-5 h-5 text-indigo-400"></lucide-icon> Transfer Stock Between Warehouses
+            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <lucide-icon [img]="TransferIcon" class="w-5 h-5 text-blue-600"></lucide-icon> Transfer Stock Between Warehouses
             </h3>
-            <button (click)="showTransferModal = false" class="text-slate-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showTransferModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
           </div>
 
           <form (ngSubmit)="submitTransferStock()" class="space-y-4">
@@ -236,7 +236,7 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
               <input type="number" min="1" [(ngModel)]="transferForm.quantity" name="quantity" required placeholder="25" class="form-input" />
             </div>
 
-            <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
               <button type="button" (click)="showTransferModal = false" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="gradient-btn-primary px-6 py-2.5 rounded-xl font-bold text-sm">Execute Transfer</button>
             </div>
@@ -286,7 +286,8 @@ export class InventoryComponent implements OnInit {
   constructor(
     private inventoryService: InventoryService,
     private productService: ProductService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -296,14 +297,30 @@ export class InventoryComponent implements OnInit {
 
   loadInventory() {
     this.inventoryService.getAll().subscribe({
-      next: (data) => (this.inventoryList = data || []),
-      error: (err) => console.error('Failed to load inventory', err)
+      next: (data) => {
+        this.inventoryList = data || [];
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load inventory', err);
+        this.cdr.detectChanges();
+      }
     });
   }
 
   loadProductsAndLocations() {
-    this.productService.getAll().subscribe({ next: (data) => (this.products = data || []) });
-    this.locationService.getAll().subscribe({ next: (data) => (this.locations = data || []) });
+    this.productService.getAll().subscribe({
+      next: (data) => {
+        this.products = data || [];
+        this.cdr.detectChanges();
+      }
+    });
+    this.locationService.getAll().subscribe({
+      next: (data) => {
+        this.locations = data || [];
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   onLocationFilterChange() {
@@ -311,7 +328,10 @@ export class InventoryComponent implements OnInit {
       this.loadInventory();
     } else {
       this.inventoryService.getByLocation(Number(this.filterLocationId)).subscribe({
-        next: (data) => (this.inventoryList = data || [])
+        next: (data) => {
+          this.inventoryList = data || [];
+          this.cdr.detectChanges();
+        }
       });
     }
   }
@@ -320,7 +340,10 @@ export class InventoryComponent implements OnInit {
     this.showOnlyLowStock = !this.showOnlyLowStock;
     if (this.showOnlyLowStock) {
       this.inventoryService.getLowStock().subscribe({
-        next: (data) => (this.inventoryList = data || [])
+        next: (data) => {
+          this.inventoryList = data || [];
+          this.cdr.detectChanges();
+        }
       });
     } else {
       this.loadInventory();
@@ -375,6 +398,7 @@ export class InventoryComponent implements OnInit {
         this.showAddModal = false;
         this.loadInventory();
         this.showToast('Stock added successfully!');
+        this.cdr.detectChanges();
       },
       error: (err) => alert('Stock addition failed: ' + (err?.error?.message || err?.message))
     });
@@ -388,6 +412,7 @@ export class InventoryComponent implements OnInit {
         this.showRemoveModal = false;
         this.loadInventory();
         this.showToast('Stock deducted successfully!');
+        this.cdr.detectChanges();
       },
       error: (err) => alert('Stock deduction failed: ' + (err?.error?.message || err?.message))
     });
@@ -411,6 +436,7 @@ export class InventoryComponent implements OnInit {
         this.showTransferModal = false;
         this.loadInventory();
         this.showToast('Stock transferred successfully between locations!');
+        this.cdr.detectChanges();
       },
       error: (err) => alert('Stock transfer failed: ' + (err?.error?.message || err?.message))
     });

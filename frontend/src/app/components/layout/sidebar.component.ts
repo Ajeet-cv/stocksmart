@@ -8,71 +8,71 @@ import { LucideAngularModule, ShoppingCart, Home, Package, Tag, Truck, Database,
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive, LucideAngularModule],
   template: `
-    <aside class="w-64 bg-[#0f172a] text-slate-300 flex flex-col justify-between min-h-screen sticky top-0 z-40 border-r border-slate-800 font-sans select-none">
+    <aside class="w-64 bg-white text-slate-700 flex flex-col justify-between min-h-screen sticky top-0 z-40 border-r border-slate-200 font-sans select-none shadow-sm">
       <div>
         <!-- Top Logo & Header -->
-        <div class="p-5 flex items-center gap-3 border-b border-slate-800/80">
-          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-600/30 flex-shrink-0">
+        <div class="p-5 flex items-center gap-3 border-b border-slate-100">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20 flex-shrink-0">
             <lucide-icon [img]="CartIcon" class="w-5 h-5"></lucide-icon>
           </div>
           <div>
-            <h1 class="text-xl font-bold text-white tracking-tight leading-tight">StockSmart</h1>
-            <p class="text-[11px] text-slate-400 font-medium leading-none mt-0.5">Retail Inventory Management System</p>
+            <h1 class="text-xl font-bold text-slate-900 tracking-tight leading-tight">StockSmart</h1>
+            <p class="text-[11px] text-slate-500 font-medium leading-none mt-0.5">Retail Inventory System</p>
           </div>
         </div>
 
         <!-- Navigation Menu -->
         <nav class="p-3 space-y-1 mt-2">
-          <a routerLink="/dashboard" routerLinkActive="bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20" [routerLinkActiveOptions]="{exact: true}"
-             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a routerLink="/dashboard" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20" [routerLinkActiveOptions]="{exact: true}"
+             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
             <lucide-icon [img]="HomeIcon" class="w-4 h-4"></lucide-icon>
             <span>Home</span>
           </a>
 
-          <a routerLink="/products" routerLinkActive="bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20"
-             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a routerLink="/products" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
+             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
             <lucide-icon [img]="ProductsIcon" class="w-4 h-4"></lucide-icon>
             <span>Products</span>
           </a>
 
-          <a routerLink="/categories" routerLinkActive="bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20"
-             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a routerLink="/categories" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
+             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
             <lucide-icon [img]="CategoriesIcon" class="w-4 h-4"></lucide-icon>
             <span>Categories</span>
           </a>
 
-          <a routerLink="/suppliers" routerLinkActive="bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20"
-             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a routerLink="/suppliers" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
+             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
             <lucide-icon [img]="SuppliersIcon" class="w-4 h-4"></lucide-icon>
             <span>Suppliers</span>
           </a>
 
-          <a routerLink="/inventory" routerLinkActive="bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20"
-             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a routerLink="/inventory" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
+             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
             <lucide-icon [img]="InventoryIcon" class="w-4 h-4"></lucide-icon>
             <span>Inventory</span>
           </a>
 
-          <a routerLink="/purchases" routerLinkActive="bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20"
-             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a routerLink="/purchases" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
+             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
             <lucide-icon [img]="PurchaseIcon" class="w-4 h-4"></lucide-icon>
             <span>Purchase</span>
           </a>
 
-          <a routerLink="/sales" routerLinkActive="bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20"
-             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a routerLink="/sales" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
+             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
             <lucide-icon [img]="SalesIcon" class="w-4 h-4"></lucide-icon>
             <span>Sales / POS</span>
           </a>
 
-          <a routerLink="/locations" routerLinkActive="bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20"
-             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a routerLink="/locations" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
+             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
             <lucide-icon [img]="BarcodeIcon" class="w-4 h-4"></lucide-icon>
             <span>Barcode Lookup</span>
           </a>
 
-          <a routerLink="/reports" routerLinkActive="bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20"
-             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a routerLink="/reports" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
+             class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
             <lucide-icon [img]="ReportsIcon" class="w-4 h-4"></lucide-icon>
             <span>Reports</span>
           </a>
@@ -80,9 +80,9 @@ import { LucideAngularModule, ShoppingCart, Home, Package, Tag, Truck, Database,
       </div>
 
       <!-- Bottom Footer -->
-      <div class="p-5 border-t border-slate-800/80 text-xs text-slate-500 font-medium">
-        <p>© 2026 <strong class="text-slate-400">StockSmart</strong></p>
-        <p class="text-[11px] mt-0.5">Version 1.0</p>
+      <div class="p-5 border-t border-slate-100 text-xs text-slate-400 font-medium">
+        <p>© 2026 <strong class="text-slate-700 font-semibold">StockSmart</strong></p>
+        <p class="text-[11px] text-slate-400 mt-0.5">Version 1.0</p>
       </div>
     </aside>
   `

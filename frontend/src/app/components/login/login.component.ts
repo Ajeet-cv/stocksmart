@@ -10,27 +10,27 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
   standalone: true,
   imports: [CommonModule, FormsModule, LucideAngularModule],
   template: `
-    <div class="min-h-screen bg-slate-950 flex items-center justify-center p-6 relative overflow-hidden font-sans">
+    <div class="min-h-screen bg-[#f8fafc] flex items-center justify-center p-6 relative overflow-hidden font-sans">
       <!-- Ambient Background Glows -->
-      <div class="absolute -top-40 -left-40 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -top-40 -left-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl relative z-10">
+      <div class="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-8 shadow-xl relative z-10">
         <!-- Logo Header -->
         <div class="text-center mb-8">
-          <div class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-600/30">
+          <div class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-600/20">
             <lucide-icon [img]="CartIcon" class="w-7 h-7 text-white"></lucide-icon>
           </div>
-          <h2 class="text-2xl font-extrabold text-white tracking-tight">StockSmart</h2>
-          <p class="text-xs text-slate-400 mt-1 font-medium">Retail Inventory Management System</p>
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">StockSmart</h2>
+          <p class="text-xs text-slate-500 mt-1 font-medium">Retail Inventory Management System</p>
         </div>
 
         <!-- Mode Toggle Tabs -->
-        <div class="flex bg-slate-950 p-1 rounded-xl mb-6 border border-slate-800">
+        <div class="flex bg-slate-100 p-1 rounded-xl mb-6 border border-slate-200">
           <button 
             [class.bg-blue-600]="activeTab === 'login'" 
             [class.text-white]="activeTab === 'login'" 
-            [class.text-slate-400]="activeTab !== 'login'"
+            [class.text-slate-600]="activeTab !== 'login'"
             (click)="switchTab('login')"
             class="flex-1 py-2 text-xs font-semibold rounded-lg transition-all text-center"
           >
@@ -39,7 +39,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
           <button 
             [class.bg-blue-600]="activeTab === 'register'" 
             [class.text-white]="activeTab === 'register'" 
-            [class.text-slate-400]="activeTab !== 'register'"
+            [class.text-slate-600]="activeTab !== 'register'"
             (click)="switchTab('register')"
             class="flex-1 py-2 text-xs font-semibold rounded-lg transition-all text-center"
           >
@@ -48,12 +48,12 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
         </div>
 
         <!-- Alert Banner -->
-        <div *ngIf="errorMessage" class="p-3.5 mb-5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium flex items-center gap-2">
+        <div *ngIf="errorMessage" class="p-3.5 mb-5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-center gap-2">
           <lucide-icon [img]="AlertIcon" class="w-4 h-4 flex-shrink-0"></lucide-icon>
           <span>{{ errorMessage }}</span>
         </div>
 
-        <div *ngIf="successMessage" class="p-3.5 mb-5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-medium flex items-center gap-2">
+        <div *ngIf="successMessage" class="p-3.5 mb-5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium flex items-center gap-2">
           <lucide-icon [img]="CheckIcon" class="w-4 h-4 flex-shrink-0"></lucide-icon>
           <span>{{ successMessage }}</span>
         </div>
@@ -61,31 +61,31 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
         <!-- LOGIN FORM -->
         <form *ngIf="activeTab === 'login'" (ngSubmit)="onLogin()" class="space-y-4">
           <div class="space-y-1.5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Email Address</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Email Address</label>
             <div class="relative">
-              <lucide-icon [img]="MailIcon" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+              <lucide-icon [img]="MailIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
               <input 
                 type="email" 
                 [(ngModel)]="loginEmail" 
                 name="email" 
                 required 
                 placeholder="name@company.com" 
-                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all"
+                class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all font-medium"
               />
             </div>
           </div>
 
           <div class="space-y-1.5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Password</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Password</label>
             <div class="relative">
-              <lucide-icon [img]="LockIcon" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+              <lucide-icon [img]="LockIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
               <input 
                 type="password" 
                 [(ngModel)]="loginPassword" 
                 name="password" 
                 required 
                 placeholder="••••••••" 
-                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all"
+                class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all font-medium"
               />
             </div>
           </div>
@@ -93,7 +93,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
           <button 
             type="submit" 
             [disabled]="loading"
-            class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm py-3 rounded-xl transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 mt-4 disabled:opacity-50"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm py-3 rounded-xl transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 mt-4 disabled:opacity-50 cursor-pointer"
           >
             <span>{{ loading ? 'Signing In...' : 'Sign In to Dashboard' }}</span>
             <lucide-icon [img]="ArrowIcon" class="w-4 h-4"></lucide-icon>
@@ -103,46 +103,46 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
         <!-- REGISTER FORM -->
         <form *ngIf="activeTab === 'register'" (ngSubmit)="onRegister()" class="space-y-4">
           <div class="space-y-1.5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Full Name</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Full Name</label>
             <div class="relative">
-              <lucide-icon [img]="UserIcon" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+              <lucide-icon [img]="UserIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
               <input 
                 type="text" 
                 [(ngModel)]="regName" 
                 name="regName" 
                 required 
                 placeholder="John Doe" 
-                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all"
+                class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all font-medium"
               />
             </div>
           </div>
 
           <div class="space-y-1.5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Email Address</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Email Address</label>
             <div class="relative">
-              <lucide-icon [img]="MailIcon" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+              <lucide-icon [img]="MailIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
               <input 
                 type="email" 
                 [(ngModel)]="regEmail" 
                 name="regEmail" 
                 required 
                 placeholder="name@company.com" 
-                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all"
+                class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all font-medium"
               />
             </div>
           </div>
 
           <div class="space-y-1.5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Password</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Password</label>
             <div class="relative">
-              <lucide-icon [img]="LockIcon" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+              <lucide-icon [img]="LockIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
               <input 
                 type="password" 
                 [(ngModel)]="regPassword" 
                 name="regPassword" 
                 required 
                 placeholder="••••••••" 
-                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all"
+                class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all font-medium"
               />
             </div>
           </div>
@@ -150,7 +150,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
           <button 
             type="submit" 
             [disabled]="loading"
-            class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm py-3 rounded-xl transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 mt-4 disabled:opacity-50"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm py-3 rounded-xl transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 mt-4 disabled:opacity-50 cursor-pointer"
           >
             <span>{{ loading ? 'Registering...' : 'Register Account' }}</span>
             <lucide-icon [img]="ArrowIcon" class="w-4 h-4"></lucide-icon>

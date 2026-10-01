@@ -16,8 +16,8 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
       <!-- Header Bar -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-extrabold text-white tracking-tight">Product Catalog</h2>
-          <p class="text-sm text-slate-400">Manage inventory products, SKUs, pricing, and reorder levels</p>
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Product Catalog</h2>
+          <p class="text-sm text-slate-500 font-medium">Manage inventory products, SKUs, pricing, and reorder levels</p>
         </div>
         <button (click)="openAddModal()" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
           <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> Add New Product
@@ -44,18 +44,18 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
               <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
             </select>
           </div>
-          <span class="text-xs text-slate-400 font-semibold whitespace-nowrap">{{ filteredProducts.length }} Products</span>
+          <span class="text-xs text-slate-500 font-semibold whitespace-nowrap">{{ filteredProducts.length }} Products</span>
         </div>
       </div>
 
       <!-- Notification Toast -->
-      <div *ngIf="toastMessage" class="p-4 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-sm font-semibold flex items-center justify-between">
+      <div *ngIf="toastMessage" class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 text-sm font-semibold flex items-center justify-between">
         <span>{{ toastMessage }}</span>
-        <button (click)="toastMessage = ''" class="text-indigo-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
+        <button (click)="toastMessage = ''" class="text-blue-600 hover:text-blue-900"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
       </div>
 
       <!-- Products Data Table -->
-      <div class="glass-panel overflow-hidden border-white/10">
+      <div class="glass-panel overflow-hidden border-slate-200">
         <div class="table-container">
           <table class="data-table">
             <thead>
@@ -72,21 +72,21 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
             </thead>
             <tbody>
               <tr *ngIf="filteredProducts.length === 0">
-                <td colspan="8" class="text-center py-8 text-slate-400">
+                <td colspan="8" class="text-center py-8 text-slate-500">
                   No products found. Click "Add New Product" to create one.
                 </td>
               </tr>
               <tr *ngFor="let prod of filteredProducts">
-                <td class="font-mono text-xs font-bold text-indigo-400">{{ prod.sku }}</td>
+                <td class="font-mono text-xs font-bold text-blue-600">{{ prod.sku }}</td>
                 <td>
-                  <div class="font-bold text-slate-100">{{ prod.name }}</div>
-                  <div class="text-xs text-slate-400 truncate max-w-xs">{{ prod.description || 'No description' }}</div>
+                  <div class="font-bold text-slate-900">{{ prod.name }}</div>
+                  <div class="text-xs text-slate-500 truncate max-w-xs">{{ prod.description || 'No description' }}</div>
                 </td>
-                <td class="text-slate-300 font-mono text-xs">{{ prod.barcode || '—' }}</td>
+                <td class="text-slate-600 font-mono text-xs">{{ prod.barcode || '—' }}</td>
                 <td>
                   <span class="badge badge-indigo">{{ prod.category?.name || 'Uncategorized' }}</span>
                 </td>
-                <td class="font-bold text-emerald-400">\${{ prod.price }}</td>
+                <td class="font-bold text-emerald-600">\${{ prod.price }}</td>
                 <td>
                   <span [class.badge-amber]="(prod.quantity || 0) <= (prod.reorderLevel || 10)"
                         [class.badge-emerald]="(prod.quantity || 0) > (prod.reorderLevel || 10)"
@@ -94,12 +94,12 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
                     {{ prod.quantity || 0 }} units
                   </span>
                 </td>
-                <td class="text-slate-400 text-xs">{{ prod.reorderLevel || 10 }} units</td>
+                <td class="text-slate-500 text-xs font-medium">{{ prod.reorderLevel || 10 }} units</td>
                 <td class="text-right space-x-2">
-                  <button (click)="openEditModal(prod)" class="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 transition-all">
+                  <button (click)="openEditModal(prod)" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all">
                     <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
                   </button>
-                  <button (click)="confirmDelete(prod)" class="p-2 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-all">
+                  <button (click)="confirmDelete(prod)" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all">
                     <lucide-icon [img]="TrashIcon" class="w-4 h-4"></lucide-icon>
                   </button>
                 </td>
@@ -113,8 +113,8 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
       <div *ngIf="showModal" class="modal-overlay">
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-white">{{ isEditing ? 'Edit Product' : 'Add New Product' }}</h3>
-            <button (click)="closeModal()" class="text-slate-400 hover:text-white"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <h3 class="text-xl font-bold text-slate-900">{{ isEditing ? 'Edit Product' : 'Add New Product' }}</h3>
+            <button (click)="closeModal()" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
           </div>
 
           <form (ngSubmit)="saveProduct()" class="space-y-4">
@@ -162,7 +162,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
               <textarea [(ngModel)]="formData.description" name="description" rows="2" placeholder="Product details..." class="form-textarea"></textarea>
             </div>
 
-            <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
               <button type="button" (click)="closeModal()" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="gradient-btn-primary px-6 py-2.5 rounded-xl font-bold text-sm">
                 {{ isEditing ? 'Update Product' : 'Create Product' }}
@@ -175,8 +175,8 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
       <!-- Delete Confirmation Modal -->
       <div *ngIf="showDeleteModal" class="modal-overlay">
         <div class="modal-card max-w-md">
-          <h3 class="text-xl font-bold text-white mb-2">Delete Product</h3>
-          <p class="text-sm text-slate-300 mb-6">Are you sure you want to delete <strong class="text-white">{{ selectedProduct?.name }}</strong>? This action cannot be undone.</p>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Delete Product</h3>
+          <p class="text-sm text-slate-600 mb-6">Are you sure you want to delete <strong class="text-slate-900">{{ selectedProduct?.name }}</strong>? This action cannot be undone.</p>
           <div class="flex justify-end gap-3">
             <button (click)="showDeleteModal = false" class="btn btn-secondary">Cancel</button>
             <button (click)="deleteProduct()" class="btn btn-danger">Delete</button>

@@ -10,6 +10,7 @@ import { SuppliersComponent } from './components/suppliers/suppliers.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { PurchasesComponent } from './components/purchases/purchases.component';
 import { SalesComponent } from './components/sales/sales.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -26,7 +27,9 @@ export const routes: Routes = [
       { path: 'suppliers', component: SuppliersComponent },
       { path: 'inventory', component: InventoryComponent },
       { path: 'purchases', component: PurchasesComponent },
-      { path: 'sales', component: SalesComponent }
+      { path: 'sales', component: SalesComponent },
+      { path: 'reports', component: ReportsComponent },
+      { path: 'barcode', redirectTo: 'locations', pathMatch: 'full' }
     ]
   },
   { path: '**', redirectTo: 'dashboard' }
