@@ -8,7 +8,7 @@ import { DashboardMetrics } from '../../models/dashboard.model';
 import { Product } from '../../models/product.model';
 import { Sale } from '../../models/sale.model';
 import { Purchase } from '../../models/purchase.model';
-import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, ShoppingCart, ShoppingBag, ArrowUpRight, ArrowDownRight, Layers } from 'lucide-angular';
+import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, ShoppingCart, ShoppingBag, ArrowUpRight, ArrowDownRight, Layers, Download } from 'lucide-angular';
 
 @Component({
   selector: 'app-reports',
@@ -22,9 +22,15 @@ import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, Shoppi
           <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Business Reports & Analytics</h2>
           <p class="text-sm text-slate-500 font-medium">Real-time revenue, purchasing, stock valuation, and category distribution reports</p>
         </div>
-        <div class="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-sm">
-          <lucide-icon [img]="BarChartIcon" class="w-4 h-4 text-blue-600"></lucide-icon>
-          <span>Live Database Insights</span>
+        <div class="flex items-center gap-3">
+          <button (click)="exportToCSV()" class="btn btn-secondary text-xs flex items-center gap-2 border-slate-300 hover:bg-slate-100 font-bold px-4 py-2.5 rounded-xl shadow-xs">
+            <lucide-icon [img]="DownloadIcon" class="w-4 h-4 text-slate-700"></lucide-icon>
+            <span>Export CSV Report</span>
+          </button>
+          <div class="hidden sm:flex items-center gap-2 text-xs font-semibold text-slate-600 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-xs">
+            <lucide-icon [img]="BarChartIcon" class="w-4 h-4 text-blue-600"></lucide-icon>
+            <span>Live Insights</span>
+          </div>
         </div>
       </div>
 
@@ -170,6 +176,7 @@ export class ReportsComponent implements OnInit {
   ArrowUpIcon = ArrowUpRight;
   ArrowDownIcon = ArrowDownRight;
   LayersIcon = Layers;
+  DownloadIcon = Download;
 
   productsList: Product[] = [];
   salesList: Sale[] = [];
@@ -215,5 +222,27 @@ export class ReportsComponent implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  exportToCSV() {
+    const headers = ['Record Type', 'Order/PO ID', 'Customer/Supplier Name', 'Total Amount ($)', 'Transaction Date'];
+    const rows: string[][] = [];
+
+    this.salesList.forEach(s => {
+      rows.push(['Sales Order', `ORD-${s.id}`, `"${s.customerName}"`, (s.totalAmount || 0).toString(), `"${s.saleDate || 'Recent'}"`]);
+    });
+
+    this.purchasesList.forEach(p => {
+      rows.push(['Purchase Order', `PO-${p.id}`, `"${p.supplier?.name || 'Vendor'}"`, (p.totalAmount || 0).toString(), `"${p.purchaseDate || 'Recent'}"`]);
+    });
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `StockSmart_Business_Report_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }

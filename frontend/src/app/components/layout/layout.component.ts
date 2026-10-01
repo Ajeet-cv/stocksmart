@@ -16,18 +16,19 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, RouterOutlet, SidebarComponent, HeaderComponent, LucideAngularModule, FormsModule],
   template: `
     <div class="flex min-h-screen bg-[#f8fafc] text-slate-800 font-sans">
-      <!-- Sidebar -->
-      <app-sidebar></app-sidebar>
+      <!-- Responsive Sidebar -->
+      <app-sidebar [isOpen]="isMobileSidebarOpen" (closeSidebar)="isMobileSidebarOpen = false"></app-sidebar>
 
       <!-- Main Content Area -->
       <div class="flex-1 flex flex-col min-w-0">
         <app-header 
+          (toggleSidebar)="isMobileSidebarOpen = !isMobileSidebarOpen"
           (openBarcodeModal)="showBarcodeModal = true"
           (openLowStockModal)="openLowStockAlerts()"
           (openNewSaleModal)="navigateToSales()"
         ></app-header>
 
-        <main class="flex-1 p-6 sm:p-8 overflow-y-auto">
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
           <router-outlet></router-outlet>
         </main>
       </div>
@@ -145,6 +146,7 @@ export class LayoutComponent {
   SearchIcon = Search;
   CheckCircleIcon = CheckCircle2;
 
+  isMobileSidebarOpen = false;
   showBarcodeModal = false;
   showLowStockModal = false;
   barcodeInput = '';

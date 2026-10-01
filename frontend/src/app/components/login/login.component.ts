@@ -230,9 +230,7 @@ export class LoginComponent {
     this.authService.register({ name: this.regName, email: this.regEmail, password: this.regPassword }).subscribe({
       next: () => {
         this.loading = false;
-        this.successMessage = 'Registration successful! You can now sign in.';
-        this.loginEmail = this.regEmail;
-        this.switchTab('login');
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.loading = false;

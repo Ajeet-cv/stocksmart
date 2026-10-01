@@ -18,12 +18,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public java.util.Map<String, String> register(
+    public LoginResponse register(
             @Valid @RequestBody RegisterRequest request) {
 
-        authService.register(request);
-
-        return java.util.Map.of("message", "Registration successful");
+        return authService.register(request);
     }
 
     @PostMapping("/login")

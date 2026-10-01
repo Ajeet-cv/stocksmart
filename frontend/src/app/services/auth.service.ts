@@ -15,8 +15,18 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  register(request: RegisterRequest): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${this.apiUrl}/register`, request);
+  register(request: RegisterRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/register`, request).pipe(
+      tap(res => {
+        if (res && res.token) {
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('user_email', res.email);
+          localStorage.setItem('user_role', res.role);
+          this.currentUser.set({ email: res.email, role: res.role });
+          this.isLoggedIn.set(true);
+        }
+      })
+    );
   }
 
   login(request: LoginRequest): Observable<LoginResponse> {

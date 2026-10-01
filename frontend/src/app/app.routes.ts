@@ -12,6 +12,8 @@ import { PurchasesComponent } from './components/purchases/purchases.component';
 import { SalesComponent } from './components/sales/sales.component';
 import { ReportsComponent } from './components/reports/reports.component';
 
+import { BarcodeLookupComponent } from './components/barcode/barcode-lookup.component';
+
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -29,7 +31,7 @@ export const routes: Routes = [
       { path: 'purchases', component: PurchasesComponent },
       { path: 'sales', component: SalesComponent },
       { path: 'reports', component: ReportsComponent },
-      { path: 'barcode', redirectTo: 'locations', pathMatch: 'full' }
+      { path: 'barcode', component: BarcodeLookupComponent }
     ]
   },
   { path: '**', redirectTo: 'dashboard' }

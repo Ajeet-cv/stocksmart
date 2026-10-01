@@ -28,7 +28,7 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    public void register(RegisterRequest request) {
+    public LoginResponse register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(
                 request.getEmail())) {
@@ -51,7 +51,19 @@ public class AuthService {
 
         user.setRole(Role.STAFF);
 
-        userRepository.save(user);
+        user = userRepository.save(user);
+
+        String token =
+                jwtService.generateToken(
+                        user.getEmail(),
+                        user.getRole().name()
+                );
+
+        return new LoginResponse(
+                token,
+                user.getEmail(),
+                user.getRole().name()
+        );
     }
 
     public LoginResponse login(LoginRequest request) {
