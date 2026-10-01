@@ -30,7 +30,7 @@ StockSmart is a full-stack Enterprise Retail Inventory Management System built w
 - 🧾 **Purchase Orders**: Process itemized purchase receipts from suppliers with status tracking (*RECEIVED*, *PENDING*, *CANCELLED*).
 - 🛒 **Point of Sale (POS)**: Checkout interface with real-time stock deduction, cart management, and bill total calculation.
 - 🔍 **Barcode Lookup**: Rapid item lookup by scanning barcodes or searching SKUs.
-- 🌱 **Database Seeder**: Pre-configured database initializer (`DataInitializer.java`) automatically seeding sample categories, suppliers, inventory items, purchases, and admin credentials.
+- 🌱 **Database Seeder**: Pre-configured database initializer (`DataInitializer.java`) automatically seeding sample categories, suppliers, inventory items, and purchases.
 
 ---
 
@@ -64,16 +64,6 @@ stocksmart/
 ├── .gitignore                           # Git ignore configurations
 └── README.md                            # Project documentation
 ```
-
----
-
-## 🔑 Default Seed Credentials
-
-Upon initial launch, the system automatically initializes the MySQL database with the following demo user:
-
-| Role | Email | Password |
-| :--- | :--- | :--- |
-| **Administrator** | `admin@stocksmart.com` | `admin123` |
 
 ---
 

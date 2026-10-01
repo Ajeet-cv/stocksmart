@@ -87,7 +87,7 @@ export class HeaderComponent {
   }
 
   get userEmail(): string {
-    return this.authService.currentUser()?.email || 'user@stocksmart.com';
+    return this.authService.currentUser()?.email || '';
   }
 
   get userRole(): string {

@@ -48,28 +48,7 @@ public class DataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        seedUsers();
         seedDataset();
-    }
-
-    private void seedUsers() {
-        if (!userRepository.existsByEmail("admin@stocksmart.com")) {
-            User admin = new User();
-            admin.setName("Admin User");
-            admin.setEmail("admin@stocksmart.com");
-            admin.setPasswordHash(passwordEncoder.encode("admin123"));
-            admin.setRole(Role.ADMIN);
-            userRepository.save(admin);
-        }
-
-        if (!userRepository.existsByEmail("staff@stocksmart.com")) {
-            User staff = new User();
-            staff.setName("Staff User");
-            staff.setEmail("staff@stocksmart.com");
-            staff.setPasswordHash(passwordEncoder.encode("password123"));
-            staff.setRole(Role.STAFF);
-            userRepository.save(staff);
-        }
     }
 
     private void seedDataset() {
