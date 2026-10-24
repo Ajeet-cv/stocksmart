@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
 import { Category, CategoryRequest } from '../../models/category.model';
-import { LucideAngularModule, Plus, Search, Edit3, Trash2, Layers, X } from 'lucide-angular';
+import { LucidePlus, LucideLayers, LucideEdit3, LucideTrash2, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucidePlus, LucideLayers, LucideEdit3, LucideTrash2, LucideX],
   template: `
     <div class="space-y-6 animate-fade-in">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -17,7 +17,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Layers, X } from 'luc
           <p class="text-sm text-slate-500 font-medium">Group and classify inventory items for easy tracking</p>
         </div>
         <button (click)="openAddModal()" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
-          <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> Add New Category
+          <svg lucidePlus class="w-4 h-4"></svg> Add New Category
         </button>
       </div>
 
@@ -27,14 +27,14 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Layers, X } from 'luc
           <div>
             <div class="flex items-center justify-between mb-4">
               <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center">
-                <lucide-icon [img]="LayersIcon" class="w-5 h-5"></lucide-icon>
+                <svg lucideLayers class="w-5 h-5"></svg>
               </div>
               <div class="flex gap-2">
                 <button (click)="openEditModal(cat)" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all">
-                  <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
+                  <svg lucideEdit3 class="w-4 h-4"></svg>
                 </button>
                 <button (click)="confirmDelete(cat)" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all">
-                  <lucide-icon [img]="TrashIcon" class="w-4 h-4"></lucide-icon>
+                  <svg lucideTrash2 class="w-4 h-4"></svg>
                 </button>
               </div>
             </div>
@@ -54,7 +54,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Layers, X } from 'luc
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-bold text-slate-900">{{ isEditing ? 'Edit Category' : 'Add Category' }}</h3>
-            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><svg lucideX class="w-5 h-5"></svg></button>
           </div>
 
           <form (ngSubmit)="saveCategory()" class="space-y-4">
@@ -93,12 +93,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Layers, X } from 'luc
   `
 })
 export class CategoriesComponent implements OnInit {
-  PlusIcon = Plus;
-  SearchIcon = Search;
-  EditIcon = Edit3;
-  TrashIcon = Trash2;
-  LayersIcon = Layers;
-  XIcon = X;
+
 
   categories: Category[] = [];
   showModal = false;

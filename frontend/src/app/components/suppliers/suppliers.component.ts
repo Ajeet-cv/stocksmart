@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SupplierService } from '../../services/supplier.service';
 import { Supplier, SupplierRequest } from '../../models/supplier.model';
-import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, MapPin, X } from 'lucide-angular';
+import { LucidePlus, LucideEdit3, LucideTrash2, LucideMail, LucidePhone, LucideMapPin, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-suppliers',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucidePlus, LucideEdit3, LucideTrash2, LucideMail, LucidePhone, LucideMapPin, LucideX],
   template: `
     <div class="space-y-6 animate-fade-in">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -17,7 +17,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, M
           <p class="text-sm text-slate-500 font-medium">Manage supplier profiles, contact details, and procurement partners</p>
         </div>
         <button (click)="openAddModal()" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
-          <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> Add New Supplier
+          <svg lucidePlus class="w-4 h-4"></svg> Add New Supplier
         </button>
       </div>
 
@@ -31,10 +31,10 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, M
               </div>
               <div class="flex gap-2">
                 <button (click)="openEditModal(sup)" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all">
-                  <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
+                  <svg lucideEdit3 class="w-4 h-4"></svg>
                 </button>
                 <button (click)="confirmDelete(sup)" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all">
-                  <lucide-icon [img]="TrashIcon" class="w-4 h-4"></lucide-icon>
+                  <svg lucideTrash2 class="w-4 h-4"></svg>
                 </button>
               </div>
             </div>
@@ -43,15 +43,15 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, M
 
             <div class="space-y-2 text-sm text-slate-700">
               <div *ngIf="sup.email" class="flex items-center gap-2">
-                <lucide-icon [img]="MailIcon" class="w-4 h-4 text-cyan-600 flex-shrink-0"></lucide-icon>
+                <svg lucideMail class="w-4 h-4 text-cyan-600 flex-shrink-0"></svg>
                 <a [href]="'mailto:' + sup.email" class="hover:text-cyan-700 truncate font-medium">{{ sup.email }}</a>
               </div>
               <div *ngIf="sup.phone" class="flex items-center gap-2">
-                <lucide-icon [img]="PhoneIcon" class="w-4 h-4 text-emerald-600 flex-shrink-0"></lucide-icon>
+                <svg lucidePhone class="w-4 h-4 text-emerald-600 flex-shrink-0"></svg>
                 <a [href]="'tel:' + sup.phone" class="hover:text-emerald-700 font-medium">{{ sup.phone }}</a>
               </div>
               <div *ngIf="sup.address" class="flex items-start gap-2">
-                <lucide-icon [img]="MapPinIcon" class="w-4 h-4 text-purple-600 flex-shrink-0 mt-0.5"></lucide-icon>
+                <svg lucideMapPin class="w-4 h-4 text-purple-600 flex-shrink-0 mt-0.5"></svg>
                 <span class="text-slate-500 text-xs">{{ sup.address }}</span>
               </div>
             </div>
@@ -69,7 +69,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, M
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-bold text-slate-900">{{ isEditing ? 'Edit Supplier' : 'Add Supplier' }}</h3>
-            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><svg lucideX class="w-5 h-5"></svg></button>
           </div>
 
           <form (ngSubmit)="saveSupplier()" class="space-y-4">
@@ -120,15 +120,6 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Users, Mail, Phone, M
   `
 })
 export class SuppliersComponent implements OnInit {
-  PlusIcon = Plus;
-  SearchIcon = Search;
-  EditIcon = Edit3;
-  TrashIcon = Trash2;
-  UsersIcon = Users;
-  MailIcon = Mail;
-  PhoneIcon = Phone;
-  MapPinIcon = MapPin;
-  XIcon = X;
 
   suppliers: Supplier[] = [];
   showModal = false;

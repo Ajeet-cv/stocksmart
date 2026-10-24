@@ -9,12 +9,12 @@ import { Purchase } from '../../models/purchase.model';
 import { Supplier } from '../../models/supplier.model';
 import { Location } from '../../models/location.model';
 import { Product } from '../../models/product.model';
-import { LucideAngularModule, Plus, ShoppingBag, Search, X, CheckCircle2, DollarSign } from 'lucide-angular';
+import { LucidePlus, LucideShoppingBag, LucideX, LucideCheckCircle2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-purchases',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucidePlus, LucideShoppingBag, LucideX, LucideCheckCircle2],
   template: `
     <div class="space-y-6 animate-fade-in">
       <!-- Header -->
@@ -24,14 +24,14 @@ import { LucideAngularModule, Plus, ShoppingBag, Search, X, CheckCircle2, Dollar
           <p class="text-sm text-slate-500 font-medium">Receive stock orders from vendor partners and update warehouse inventory</p>
         </div>
         <button (click)="openReceiveModal()" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
-          <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> Receive Purchase Order
+          <svg lucidePlus class="w-4 h-4"></svg> Receive Purchase Order
         </button>
       </div>
 
       <!-- Toast -->
       <div *ngIf="toastMessage" class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center justify-between">
         <span>{{ toastMessage }}</span>
-        <button (click)="toastMessage = ''" class="text-emerald-600 hover:text-emerald-900"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
+        <button (click)="toastMessage = ''" class="text-emerald-600 hover:text-emerald-900"><svg lucideX class="w-4 h-4"></svg></button>
       </div>
 
       <!-- Purchases History Table -->
@@ -64,7 +64,7 @@ import { LucideAngularModule, Plus, ShoppingBag, Search, X, CheckCircle2, Dollar
                 <td class="font-extrabold text-slate-900 text-base">\${{ p.totalAmount }}</td>
                 <td>
                   <span class="badge badge-emerald flex items-center gap-1">
-                    <lucide-icon [img]="CheckIcon" class="w-3 h-3"></lucide-icon> Received
+                    <svg lucideCheckCircle2 class="w-3 h-3"></svg> Received
                   </span>
                 </td>
                 <td class="text-xs text-slate-500 font-medium">{{ p.purchaseDate ? (p.purchaseDate | date:'medium') : 'Recent' }}</td>
@@ -79,9 +79,9 @@ import { LucideAngularModule, Plus, ShoppingBag, Search, X, CheckCircle2, Dollar
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <lucide-icon [img]="ShoppingBagIcon" class="w-5 h-5 text-blue-600"></lucide-icon> Receive Purchase Order
+              <svg lucideShoppingBag class="w-5 h-5 text-blue-600"></svg> Receive Purchase Order
             </h3>
-            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><svg lucideX class="w-5 h-5"></svg></button>
           </div>
 
           <form (ngSubmit)="submitReceive()" class="space-y-4">
@@ -137,13 +137,6 @@ import { LucideAngularModule, Plus, ShoppingBag, Search, X, CheckCircle2, Dollar
   `
 })
 export class PurchasesComponent implements OnInit {
-  PlusIcon = Plus;
-  ShoppingBagIcon = ShoppingBag;
-  SearchIcon = Search;
-  XIcon = X;
-  CheckIcon = CheckCircle2;
-  DollarIcon = DollarSign;
-
   purchases: Purchase[] = [];
   suppliers: Supplier[] = [];
   locations: Location[] = [];

@@ -1,24 +1,24 @@
 import { Component, EventEmitter, Output, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LucideAngularModule, Search, Bell, Menu, ChevronDown, User, AlertTriangle, ShoppingCart, ShoppingBag, X } from 'lucide-angular';
+import { LucideMenu, LucideSearch, LucideBell, LucideAlertTriangle, LucideShoppingCart, LucideShoppingBag, LucideUser, LucideChevronDown } from '@lucide/angular';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucideMenu, LucideSearch, LucideBell, LucideAlertTriangle, LucideShoppingCart, LucideShoppingBag, LucideUser, LucideChevronDown],
   template: `
     <header class="h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 font-sans shadow-sm">
       <!-- Left: Mobile Hamburger & Search Bar -->
       <div class="flex items-center gap-2 sm:gap-4 flex-1 max-w-xl">
         <button (click)="toggleSidebar.emit()" class="lg:hidden text-slate-600 hover:text-slate-900 p-2 rounded-xl hover:bg-slate-100 transition-all cursor-pointer flex-shrink-0">
-          <lucide-icon [img]="MenuIcon" class="w-5 h-5"></lucide-icon>
+          <svg lucideMenu class="w-5 h-5"></svg>
         </button>
 
         <div class="relative w-full max-w-md">
-          <lucide-icon [img]="SearchIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+          <svg lucideSearch class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></svg>
           <input 
             type="text" 
             [(ngModel)]="searchQuery" 
@@ -34,7 +34,7 @@ import { Router } from '@angular/router';
         <!-- Notification Bell -->
         <div class="relative">
           <button (click)="toggleNotifications($event)" class="cursor-pointer p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all relative">
-            <lucide-icon [img]="BellIcon" class="w-5 h-5"></lucide-icon>
+            <svg lucideBell class="w-5 h-5"></svg>
             <span class="absolute top-1.5 right-1.5 w-4 h-4 bg-rose-500 text-white font-bold text-[10px] rounded-full flex items-center justify-center border-2 border-white">
               3
             </span>
@@ -50,7 +50,7 @@ import { Router } from '@angular/router';
             <div class="divide-y divide-slate-100 max-h-80 overflow-y-auto">
               <div (click)="navigateTo('/inventory')" class="p-3 hover:bg-slate-50 cursor-pointer transition-all flex items-start gap-3">
                 <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <lucide-icon [img]="AlertIcon" class="w-4 h-4"></lucide-icon>
+                  <svg lucideAlertTriangle class="w-4 h-4"></svg>
                 </div>
                 <div>
                   <p class="text-xs font-bold text-slate-900">Low Stock Alert</p>
@@ -60,7 +60,7 @@ import { Router } from '@angular/router';
 
               <div (click)="navigateTo('/sales')" class="p-3 hover:bg-slate-50 cursor-pointer transition-all flex items-start gap-3">
                 <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <lucide-icon [img]="CartIcon" class="w-4 h-4"></lucide-icon>
+                  <svg lucideShoppingCart class="w-4 h-4"></svg>
                 </div>
                 <div>
                   <p class="text-xs font-bold text-slate-900">New Sale Completed</p>
@@ -70,7 +70,7 @@ import { Router } from '@angular/router';
 
               <div (click)="navigateTo('/purchases')" class="p-3 hover:bg-slate-50 cursor-pointer transition-all flex items-start gap-3">
                 <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <lucide-icon [img]="BagIcon" class="w-4 h-4"></lucide-icon>
+                  <svg lucideShoppingBag class="w-4 h-4"></svg>
                 </div>
                 <div>
                   <p class="text-xs font-bold text-slate-900">PO Received</p>
@@ -86,13 +86,13 @@ import { Router } from '@angular/router';
         <!-- User Profile Dropdown -->
         <div (click)="toggleDropdown($event)" class="relative flex items-center gap-3 cursor-pointer py-1 px-2 rounded-xl hover:bg-slate-100 transition-all">
           <div class="w-9 h-9 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-md shadow-blue-500/20">
-            <lucide-icon [img]="UserIcon" class="w-4 h-4 text-white"></lucide-icon>
+            <svg lucideUser class="w-4 h-4 text-white"></svg>
           </div>
           <div class="hidden sm:block text-left">
             <p class="text-xs font-bold text-slate-800 leading-tight">{{ userName }}</p>
             <p class="text-[11px] font-medium text-slate-400 leading-none mt-0.5">{{ userRole }}</p>
           </div>
-          <lucide-icon [img]="ChevronIcon" class="w-4 h-4 text-slate-400 ml-1"></lucide-icon>
+          <svg lucideChevronDown class="w-4 h-4 text-slate-400 ml-1"></svg>
 
           <!-- Dropdown Menu -->
           <div *ngIf="showMenu" (click)="$event.stopPropagation()" class="absolute right-0 top-12 w-48 bg-white border border-slate-200 rounded-xl shadow-xl py-1 z-50 animate-fade-in">
@@ -110,15 +110,6 @@ import { Router } from '@angular/router';
   `
 })
 export class HeaderComponent {
-  MenuIcon = Menu;
-  SearchIcon = Search;
-  BellIcon = Bell;
-  ChevronIcon = ChevronDown;
-  UserIcon = User;
-  AlertIcon = AlertTriangle;
-  CartIcon = ShoppingCart;
-  BagIcon = ShoppingBag;
-  XIcon = X;
 
   searchQuery = '';
   showMenu = false;

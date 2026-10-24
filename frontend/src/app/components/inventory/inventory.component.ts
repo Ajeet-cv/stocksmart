@@ -7,12 +7,12 @@ import { LocationService } from '../../services/location.service';
 import { Inventory } from '../../models/inventory.model';
 import { Product } from '../../models/product.model';
 import { Location } from '../../models/location.model';
-import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, AlertTriangle, X, Check, ArrowDownUp } from 'lucide-angular';
+import { LucidePlus, LucideMinus, LucideArrowRightLeft, LucideSearch, LucideAlertTriangle, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucidePlus, LucideMinus, LucideArrowRightLeft, LucideSearch, LucideAlertTriangle, LucideX],
   template: `
     <div class="space-y-6 animate-fade-in">
       <!-- Header -->
@@ -23,13 +23,13 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
         </div>
         <div class="flex items-center gap-3 flex-wrap">
           <button (click)="openAddModal()" class="gradient-btn-primary px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
-            <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> Add Stock
+            <svg lucidePlus class="w-4 h-4"></svg> Add Stock
           </button>
           <button (click)="openRemoveModal()" class="btn btn-secondary text-sm flex items-center gap-2">
-            <lucide-icon [img]="MinusIcon" class="w-4 h-4"></lucide-icon> Deduct Stock
+            <svg lucideMinus class="w-4 h-4"></svg> Deduct Stock
           </button>
           <button (click)="openTransferModal()" class="btn btn-secondary text-sm flex items-center gap-2 text-blue-600 border-blue-200 hover:bg-blue-50">
-            <lucide-icon [img]="TransferIcon" class="w-4 h-4"></lucide-icon> Transfer Stock
+            <svg lucideArrowRightLeft class="w-4 h-4"></svg> Transfer Stock
           </button>
         </div>
       </div>
@@ -38,7 +38,7 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
       <div class="glass-panel p-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3 w-full md:w-auto">
           <div class="relative flex-1 md:w-72">
-            <lucide-icon [img]="SearchIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+            <svg lucideSearch class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></svg>
             <input type="text" [(ngModel)]="searchQuery" placeholder="Filter by product or location..." class="form-input pl-10 py-2 text-sm" />
           </div>
           
@@ -52,7 +52,7 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
                   [class.border-amber-200]="showOnlyLowStock"
                   [class.text-amber-700]="showOnlyLowStock"
                   class="btn btn-secondary text-xs flex items-center gap-2 whitespace-nowrap">
-            <lucide-icon [img]="AlertIcon" class="w-4 h-4 text-amber-600"></lucide-icon> Low Stock Only
+            <svg lucideAlertTriangle class="w-4 h-4 text-amber-600"></svg> Low Stock Only
           </button>
         </div>
 
@@ -62,7 +62,7 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
       <!-- Notification Toast -->
       <div *ngIf="toastMessage" class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center justify-between">
         <span>{{ toastMessage }}</span>
-        <button (click)="toastMessage = ''" class="text-emerald-600 hover:text-emerald-900"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
+        <button (click)="toastMessage = ''" class="text-emerald-600 hover:text-emerald-900"><svg lucideX class="w-4 h-4"></svg></button>
       </div>
 
       <!-- Inventory Data Table -->
@@ -102,7 +102,7 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
                 <td class="text-slate-500 text-xs font-medium">{{ inv.product?.reorderLevel || 10 }} units</td>
                 <td>
                   <span *ngIf="inv.quantity <= (inv.product?.reorderLevel || 10)" class="badge badge-amber flex items-center gap-1">
-                    <lucide-icon [img]="AlertIcon" class="w-3 h-3"></lucide-icon> Low Stock
+                    <svg lucideAlertTriangle class="w-3 h-3"></svg> Low Stock
                   </span>
                   <span *ngIf="inv.quantity > (inv.product?.reorderLevel || 10)" class="badge badge-emerald">
                     Optimal
@@ -119,9 +119,9 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <lucide-icon [img]="PlusIcon" class="w-5 h-5 text-blue-600"></lucide-icon> Add Stock to Location
+              <svg lucidePlus class="w-5 h-5 text-blue-600"></svg> Add Stock to Location
             </h3>
-            <button (click)="showAddModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showAddModal = false" class="text-slate-400 hover:text-slate-700"><svg lucideX class="w-5 h-5"></svg></button>
           </div>
 
           <form (ngSubmit)="submitAddStock()" class="space-y-4">
@@ -159,9 +159,9 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <lucide-icon [img]="MinusIcon" class="w-5 h-5 text-rose-600"></lucide-icon> Deduct / Adjust Stock
+              <svg lucideMinus class="w-5 h-5 text-rose-600"></svg> Deduct / Adjust Stock
             </h3>
-            <button (click)="showRemoveModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showRemoveModal = false" class="text-slate-400 hover:text-slate-700"><svg lucideX class="w-5 h-5"></svg></button>
           </div>
 
           <form (ngSubmit)="submitRemoveStock()" class="space-y-4">
@@ -199,9 +199,9 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <lucide-icon [img]="TransferIcon" class="w-5 h-5 text-blue-600"></lucide-icon> Transfer Stock Between Warehouses
+              <svg lucideArrowRightLeft class="w-5 h-5 text-blue-600"></svg> Transfer Stock Between Warehouses
             </h3>
-            <button (click)="showTransferModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showTransferModal = false" class="text-slate-400 hover:text-slate-700"><svg lucideX class="w-5 h-5"></svg></button>
           </div>
 
           <form (ngSubmit)="submitTransferStock()" class="space-y-4">
@@ -247,15 +247,6 @@ import { LucideAngularModule, Plus, Minus, ArrowRightLeft, Search, Filter, Alert
   `
 })
 export class InventoryComponent implements OnInit {
-  PlusIcon = Plus;
-  MinusIcon = Minus;
-  TransferIcon = ArrowRightLeft;
-  SearchIcon = Search;
-  FilterIcon = Filter;
-  AlertIcon = AlertTriangle;
-  XIcon = X;
-  CheckIcon = Check;
-  InventoryIcon = ArrowDownUp;
 
   inventoryList: Inventory[] = [];
   products: Product[] = [];

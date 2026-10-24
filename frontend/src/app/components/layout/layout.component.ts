@@ -7,13 +7,13 @@ import { ProductService } from '../../services/product.service';
 import { InventoryService } from '../../services/inventory.service';
 import { Product } from '../../models/product.model';
 import { Inventory } from '../../models/inventory.model';
-import { LucideAngularModule, Barcode, AlertTriangle, X, Search, CheckCircle2 } from 'lucide-angular';
+import { LucideBarcode, LucideAlertTriangle, LucideX, LucideSearch, LucideCheckCircle2 } from '@lucide/angular';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, SidebarComponent, HeaderComponent, LucideAngularModule, FormsModule],
+  imports: [CommonModule, RouterOutlet, SidebarComponent, HeaderComponent, LucideBarcode, LucideAlertTriangle, LucideX, LucideSearch, LucideCheckCircle2, FormsModule],
   template: `
     <div class="flex min-h-screen bg-[#f8fafc] text-slate-800 font-sans">
       <!-- Responsive Sidebar -->
@@ -39,7 +39,7 @@ import { FormsModule } from '@angular/forms';
           <div class="flex justify-between items-center mb-6">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center">
-                <lucide-icon [img]="BarcodeIcon" class="w-5 h-5"></lucide-icon>
+                <svg lucideBarcode class="w-5 h-5"></svg>
               </div>
               <div>
                 <h3 class="text-lg font-bold text-slate-900">Barcode Scanner & Quick Search</h3>
@@ -47,7 +47,7 @@ import { FormsModule } from '@angular/forms';
               </div>
             </div>
             <button (click)="closeBarcodeModal()" class="text-slate-400 hover:text-slate-700 transition-all">
-              <lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon>
+              <svg lucideX class="w-5 h-5"></svg>
             </button>
           </div>
 
@@ -64,14 +64,14 @@ import { FormsModule } from '@angular/forms';
                   autofocus
                 />
                 <button (click)="searchBarcode()" [disabled]="loadingBarcode" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-semibold text-sm flex items-center gap-2">
-                  <lucide-icon [img]="SearchIcon" class="w-4 h-4"></lucide-icon>
+                  <svg lucideSearch class="w-4 h-4"></svg>
                   <span>Lookup</span>
                 </button>
               </div>
             </div>
 
             <div *ngIf="barcodeError" class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm flex items-center gap-2">
-              <lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon>
+              <svg lucideX class="w-4 h-4"></svg>
               <span>{{ barcodeError }}</span>
             </div>
 
@@ -102,7 +102,7 @@ import { FormsModule } from '@angular/forms';
           <div class="flex justify-between items-center mb-6">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center">
-                <lucide-icon [img]="AlertIcon" class="w-5 h-5"></lucide-icon>
+                <svg lucideAlertTriangle class="w-5 h-5"></svg>
               </div>
               <div>
                 <h3 class="text-lg font-bold text-slate-900">Low Stock Warning Items</h3>
@@ -110,12 +110,12 @@ import { FormsModule } from '@angular/forms';
               </div>
             </div>
             <button (click)="showLowStockModal = false" class="text-slate-400 hover:text-slate-700 transition-all">
-              <lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon>
+              <svg lucideX class="w-5 h-5"></svg>
             </button>
           </div>
 
           <div *ngIf="lowStockItems.length === 0" class="p-8 text-center text-slate-500">
-            <lucide-icon [img]="CheckCircleIcon" class="w-10 h-10 text-emerald-600 mx-auto mb-2"></lucide-icon>
+            <svg lucideCheckCircle2 class="w-10 h-10 text-emerald-600 mx-auto mb-2"></svg>
             <p class="font-medium">All stock levels are optimal! No items below reorder threshold.</p>
           </div>
 
@@ -140,11 +140,6 @@ import { FormsModule } from '@angular/forms';
   `
 })
 export class LayoutComponent {
-  BarcodeIcon = Barcode;
-  AlertIcon = AlertTriangle;
-  XIcon = X;
-  SearchIcon = Search;
-  CheckCircleIcon = CheckCircle2;
 
   isMobileSidebarOpen = false;
   showBarcodeModal = false;

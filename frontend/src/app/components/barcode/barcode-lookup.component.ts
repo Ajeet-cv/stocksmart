@@ -5,12 +5,12 @@ import { ProductService } from '../../services/product.service';
 import { InventoryService } from '../../services/inventory.service';
 import { Product } from '../../models/product.model';
 import { Inventory } from '../../models/inventory.model';
-import { LucideAngularModule, Barcode, Search, AlertCircle, CheckCircle2, Package, Layers, MapPin, DollarSign, ArrowRight, RefreshCw } from 'lucide-angular';
+import { LucideBarcode, LucideSearch, LucideAlertCircle, LucidePackage, LucideMapPin } from '@lucide/angular';
 
 @Component({
   selector: 'app-barcode-lookup',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucideBarcode, LucideSearch, LucideAlertCircle, LucidePackage, LucideMapPin],
   template: `
     <div class="space-y-6 animate-fade-in font-sans">
       <!-- Header -->
@@ -20,7 +20,7 @@ import { LucideAngularModule, Barcode, Search, AlertCircle, CheckCircle2, Packag
           <p class="text-sm text-slate-500 font-medium">Instantly scan or input barcodes to verify item details, pricing, and stock locations</p>
         </div>
         <div class="flex items-center gap-2 text-xs font-semibold text-blue-700 bg-blue-50 px-3.5 py-2 rounded-xl border border-blue-200">
-          <lucide-icon [img]="BarcodeIcon" class="w-4 h-4 text-blue-600"></lucide-icon>
+          <svg lucideBarcode class="w-4 h-4 text-blue-600"></svg>
           <span>Real-time Barcode Engine</span>
         </div>
       </div>
@@ -30,7 +30,7 @@ import { LucideAngularModule, Barcode, Search, AlertCircle, CheckCircle2, Packag
         <label class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-2">Scan or Type Barcode / SKU</label>
         <div class="flex flex-col sm:flex-row items-center gap-3">
           <div class="relative w-full flex-1">
-            <lucide-icon [img]="BarcodeIcon" class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2"></lucide-icon>
+            <svg lucideBarcode class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2"></svg>
             <input 
               type="text" 
               [(ngModel)]="searchBarcode" 
@@ -40,7 +40,7 @@ import { LucideAngularModule, Barcode, Search, AlertCircle, CheckCircle2, Packag
             />
           </div>
           <button (click)="performLookup()" class="w-full sm:w-auto gradient-btn-primary px-8 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2">
-            <lucide-icon [img]="SearchIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideSearch class="w-4 h-4"></svg>
             <span>Scan & Lookup</span>
           </button>
         </div>
@@ -61,7 +61,7 @@ import { LucideAngularModule, Barcode, Search, AlertCircle, CheckCircle2, Packag
       <!-- Search Error / Not Found Banner -->
       <div *ngIf="errorMessage" class="p-6 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 flex items-start gap-4">
         <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center flex-shrink-0">
-          <lucide-icon [img]="AlertIcon" class="w-5 h-5"></lucide-icon>
+          <svg lucideAlertCircle class="w-5 h-5"></svg>
         </div>
         <div>
           <h4 class="font-bold text-base text-rose-900">Barcode Not Found</h4>
@@ -74,7 +74,7 @@ import { LucideAngularModule, Barcode, Search, AlertCircle, CheckCircle2, Packag
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
           <div class="flex items-center gap-4">
             <div class="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20 flex-shrink-0">
-              <lucide-icon [img]="PackageIcon" class="w-7 h-7"></lucide-icon>
+              <svg lucidePackage class="w-7 h-7"></svg>
             </div>
             <div>
               <div class="flex items-center gap-2">
@@ -98,7 +98,7 @@ import { LucideAngularModule, Barcode, Search, AlertCircle, CheckCircle2, Packag
           <div class="p-4 rounded-xl bg-white border border-slate-200">
             <div class="text-xs font-bold text-slate-500 uppercase">Barcode Tag</div>
             <div class="text-base font-mono font-extrabold text-slate-900 mt-1 flex items-center gap-2">
-              <lucide-icon [img]="BarcodeIcon" class="w-4 h-4 text-blue-600"></lucide-icon>
+              <svg lucideBarcode class="w-4 h-4 text-blue-600"></svg>
               <span>{{ scannedProduct.barcode || 'N/A' }}</span>
             </div>
           </div>
@@ -126,7 +126,7 @@ import { LucideAngularModule, Barcode, Search, AlertCircle, CheckCircle2, Packag
         <!-- Inventory Location Breakdown Table -->
         <div *ngIf="productInventoryList.length > 0" class="space-y-3">
           <h4 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
-            <lucide-icon [img]="MapPinIcon" class="w-4 h-4 text-blue-600"></lucide-icon> Stock Location Distribution
+            <svg lucideMapPin class="w-4 h-4 text-blue-600"></svg> Stock Location Distribution
           </h4>
           <div class="glass-panel overflow-hidden border-slate-200 bg-white">
             <table class="data-table">
@@ -157,16 +157,6 @@ import { LucideAngularModule, Barcode, Search, AlertCircle, CheckCircle2, Packag
   `
 })
 export class BarcodeLookupComponent implements OnInit {
-  BarcodeIcon = Barcode;
-  SearchIcon = Search;
-  AlertIcon = AlertCircle;
-  CheckIcon = CheckCircle2;
-  PackageIcon = Package;
-  LayersIcon = Layers;
-  MapPinIcon = MapPin;
-  DollarIcon = DollarSign;
-  ArrowIcon = ArrowRight;
-  RefreshIcon = RefreshCw;
 
   searchBarcode = '890100000001';
   scannedProduct: Product | null = null;

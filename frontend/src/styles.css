@@ -333,14 +333,50 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Lucide Icon Helpers */
-lucide-icon {
+svg.lucide,
+svg[class*="lucide"],
+svg[lucidePlus],
+svg[lucideMinus],
+svg[lucideSearch],
+svg[lucideEdit3],
+svg[lucideTrash2],
+svg[lucideLayers],
+svg[lucideX],
+svg[lucideBell],
+svg[lucideMenu],
+svg[lucideUser],
+svg[lucideLock],
+svg[lucideMail],
+svg[lucidePhone],
+svg[lucideMapPin],
+svg[lucideTruck],
+svg[lucideHome],
+svg[lucideStore],
+svg[lucideTag],
+svg[lucidePackage],
+svg[lucideShoppingCart],
+svg[lucideShoppingBag],
+svg[lucideDatabase],
+svg[lucideBarcode],
+svg[lucideBarChart3],
+svg[lucideTrendingUp],
+svg[lucideDollarSign],
+svg[lucideArrowRight],
+svg[lucideArrowUpRight],
+svg[lucideArrowRightLeft],
+svg[lucideCalendar],
+svg[lucideAlertCircle],
+svg[lucideAlertTriangle],
+svg[lucideCheckCircle2],
+svg[lucideCheck],
+svg[lucideFilter],
+svg[lucideChevronDown],
+svg[lucideDownload],
+svg[lucideBuilding] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   vertical-align: middle;
-}
-
-lucide-icon svg {
-  display: block;
   stroke-width: 2px;
 }
+

@@ -11,12 +11,12 @@ import { DashboardMetrics } from '../../models/dashboard.model';
 import { Product } from '../../models/product.model';
 import { Inventory } from '../../models/inventory.model';
 import { Sale } from '../../models/sale.model';
-import { LucideAngularModule, Package, ShoppingCart, ShoppingBag, Database, ArrowRight, Calendar, AlertCircle, CheckCircle2, User, PlusCircle } from 'lucide-angular';
+import { LucidePackage, LucideShoppingCart, LucideShoppingBag, LucideDatabase, LucideArrowRight, LucideCalendar, LucideCheckCircle2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule],
+  imports: [CommonModule, RouterLink, LucidePackage, LucideShoppingCart, LucideShoppingBag, LucideDatabase, LucideArrowRight, LucideCalendar, LucideCheckCircle2],
   template: `
     <div class="space-y-6 font-sans text-slate-800 animate-fade-in pb-12">
       <!-- Welcome Header -->
@@ -26,7 +26,7 @@ import { LucideAngularModule, Package, ShoppingCart, ShoppingBag, Database, Arro
           <p class="text-xs text-slate-500 font-medium mt-1">Here's what's happening with your store today.</p>
         </div>
         <div class="flex items-center gap-2 text-xs font-semibold text-slate-500 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-sm">
-          <lucide-icon [img]="CalendarIcon" class="w-4 h-4 text-slate-400"></lucide-icon>
+          <svg lucideCalendar class="w-4 h-4 text-slate-400"></svg>
           <span>{{ currentDate }}</span>
         </div>
       </div>
@@ -41,11 +41,11 @@ import { LucideAngularModule, Package, ShoppingCart, ShoppingBag, Database, Arro
               <h3 class="text-3xl font-extrabold text-slate-900 mt-2">{{ metrics?.totalProducts || 0 }}</h3>
             </div>
             <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
-              <lucide-icon [img]="PackageIcon" class="w-6 h-6"></lucide-icon>
+              <svg lucidePackage class="w-6 h-6"></svg>
             </div>
           </div>
           <a routerLink="/products" class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700">
-            View Products <lucide-icon [img]="ArrowRightIcon" class="w-3.5 h-3.5"></lucide-icon>
+            View Products <svg lucideArrowRight class="w-3.5 h-3.5"></svg>
           </a>
         </div>
 
@@ -57,11 +57,11 @@ import { LucideAngularModule, Package, ShoppingCart, ShoppingBag, Database, Arro
               <h3 class="text-3xl font-extrabold text-slate-900 mt-2">{{ metrics?.totalSales || 0 }}</h3>
             </div>
             <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <lucide-icon [img]="CartIcon" class="w-6 h-6"></lucide-icon>
+              <svg lucideShoppingCart class="w-6 h-6"></svg>
             </div>
           </div>
           <a routerLink="/sales" class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700">
-            View Sales <lucide-icon [img]="ArrowRightIcon" class="w-3.5 h-3.5"></lucide-icon>
+            View Sales <svg lucideArrowRight class="w-3.5 h-3.5"></svg>
           </a>
         </div>
 
@@ -73,11 +73,11 @@ import { LucideAngularModule, Package, ShoppingCart, ShoppingBag, Database, Arro
               <h3 class="text-3xl font-extrabold text-slate-900 mt-2">{{ metrics?.totalPurchases || 0 }}</h3>
             </div>
             <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
-              <lucide-icon [img]="BagIcon" class="w-6 h-6"></lucide-icon>
+              <svg lucideShoppingBag class="w-6 h-6"></svg>
             </div>
           </div>
           <a routerLink="/purchases" class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-purple-600 hover:text-purple-700">
-            View Purchases <lucide-icon [img]="ArrowRightIcon" class="w-3.5 h-3.5"></lucide-icon>
+            View Purchases <svg lucideArrowRight class="w-3.5 h-3.5"></svg>
           </a>
         </div>
 
@@ -89,11 +89,11 @@ import { LucideAngularModule, Package, ShoppingCart, ShoppingBag, Database, Arro
               <h3 class="text-3xl font-extrabold text-slate-900 mt-2">{{ lowStockItems.length }}</h3>
             </div>
             <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
-              <lucide-icon [img]="DatabaseIcon" class="w-6 h-6"></lucide-icon>
+              <svg lucideDatabase class="w-6 h-6"></svg>
             </div>
           </div>
           <a routerLink="/inventory" class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-amber-600 hover:text-amber-700">
-            View Inventory <lucide-icon [img]="ArrowRightIcon" class="w-3.5 h-3.5"></lucide-icon>
+            View Inventory <svg lucideArrowRight class="w-3.5 h-3.5"></svg>
           </a>
         </div>
       </div>
@@ -162,7 +162,7 @@ import { LucideAngularModule, Package, ShoppingCart, ShoppingBag, Database, Arro
           </div>
 
           <div *ngIf="lowStockItems.length === 0" class="py-12 text-center text-xs text-slate-400 font-medium">
-            <lucide-icon [img]="CheckIcon" class="w-8 h-8 text-emerald-500 mx-auto mb-2"></lucide-icon>
+            <svg lucideCheckCircle2 class="w-8 h-8 text-emerald-500 mx-auto mb-2"></svg>
             All product quantities are at healthy levels!
           </div>
 
@@ -185,16 +185,6 @@ import { LucideAngularModule, Package, ShoppingCart, ShoppingBag, Database, Arro
   `
 })
 export class DashboardComponent implements OnInit {
-  PackageIcon = Package;
-  CartIcon = ShoppingCart;
-  BagIcon = ShoppingBag;
-  DatabaseIcon = Database;
-  ArrowRightIcon = ArrowRight;
-  CalendarIcon = Calendar;
-  AlertIcon = AlertCircle;
-  CheckIcon = CheckCircle2;
-  UserIcon = User;
-  PlusIcon = PlusCircle;
 
   metrics: DashboardMetrics | null = null;
   products: Product[] = [];

@@ -8,12 +8,12 @@ import { DashboardMetrics } from '../../models/dashboard.model';
 import { Product } from '../../models/product.model';
 import { Sale } from '../../models/sale.model';
 import { Purchase } from '../../models/purchase.model';
-import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, ShoppingCart, ShoppingBag, ArrowUpRight, ArrowDownRight, Layers, Download } from 'lucide-angular';
+import { LucideBarChart3, LucideTrendingUp, LucideDollarSign, LucidePackage, LucideShoppingCart, LucideShoppingBag, LucideArrowUpRight, LucideDownload } from '@lucide/angular';
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, LucideBarChart3, LucideTrendingUp, LucideDollarSign, LucidePackage, LucideShoppingCart, LucideShoppingBag, LucideArrowUpRight, LucideDownload],
   template: `
     <div class="space-y-6 animate-fade-in font-sans">
       <!-- Header -->
@@ -24,11 +24,11 @@ import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, Shoppi
         </div>
         <div class="flex items-center gap-3">
           <button (click)="exportToCSV()" class="btn btn-secondary text-xs flex items-center gap-2 border-slate-300 hover:bg-slate-100 font-bold px-4 py-2.5 rounded-xl shadow-xs">
-            <lucide-icon [img]="DownloadIcon" class="w-4 h-4 text-slate-700"></lucide-icon>
+            <svg lucideDownload class="w-4 h-4 text-slate-700"></svg>
             <span>Export CSV Report</span>
           </button>
           <div class="hidden sm:flex items-center gap-2 text-xs font-semibold text-slate-600 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-xs">
-            <lucide-icon [img]="BarChartIcon" class="w-4 h-4 text-blue-600"></lucide-icon>
+            <svg lucideBarChart3 class="w-4 h-4 text-blue-600"></svg>
             <span>Live Insights</span>
           </div>
         </div>
@@ -42,11 +42,11 @@ import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, Shoppi
             <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Sales Revenue</p>
             <h3 class="text-2xl font-extrabold text-slate-900 mt-1">\${{ totalSalesRevenue.toFixed(2) }}</h3>
             <p class="text-[11px] font-semibold text-emerald-600 flex items-center gap-0.5 mt-1">
-              <lucide-icon [img]="ArrowUpIcon" class="w-3 h-3"></lucide-icon> {{ salesList.length }} Completed Sales
+              <svg lucideArrowUpRight class="w-3 h-3"></svg> {{ salesList.length }} Completed Sales
             </p>
           </div>
           <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
-            <lucide-icon [img]="DollarIcon" class="w-6 h-6"></lucide-icon>
+            <svg lucideDollarSign class="w-6 h-6"></svg>
           </div>
         </div>
 
@@ -56,11 +56,11 @@ import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, Shoppi
             <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Purchase Expenditures</p>
             <h3 class="text-2xl font-extrabold text-slate-900 mt-1">\${{ totalPurchaseSpend.toFixed(2) }}</h3>
             <p class="text-[11px] font-semibold text-blue-600 flex items-center gap-0.5 mt-1">
-              <lucide-icon [img]="BagIcon" class="w-3 h-3"></lucide-icon> {{ purchasesList.length }} Orders Received
+              <svg lucideShoppingBag class="w-3 h-3"></svg> {{ purchasesList.length }} Orders Received
             </p>
           </div>
           <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
-            <lucide-icon [img]="BagIcon" class="w-6 h-6"></lucide-icon>
+            <svg lucideShoppingBag class="w-6 h-6"></svg>
           </div>
         </div>
 
@@ -70,11 +70,11 @@ import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, Shoppi
             <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Stock Valuation</p>
             <h3 class="text-2xl font-extrabold text-slate-900 mt-1">\${{ totalInventoryValue.toFixed(2) }}</h3>
             <p class="text-[11px] font-semibold text-purple-600 flex items-center gap-0.5 mt-1">
-              <lucide-icon [img]="PackageIcon" class="w-3 h-3"></lucide-icon> {{ productsList.length }} Active Catalog SKUs
+              <svg lucidePackage class="w-3 h-3"></svg> {{ productsList.length }} Active Catalog SKUs
             </p>
           </div>
           <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-100">
-            <lucide-icon [img]="TrendingUpIcon" class="w-6 h-6"></lucide-icon>
+            <svg lucideTrendingUp class="w-6 h-6"></svg>
           </div>
         </div>
 
@@ -88,7 +88,7 @@ import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, Shoppi
             </p>
           </div>
           <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-100">
-            <lucide-icon [img]="BarChartIcon" class="w-6 h-6"></lucide-icon>
+            <svg lucideBarChart3 class="w-6 h-6"></svg>
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@ import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, Shoppi
         <div class="glass-panel p-6 border-slate-200">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <lucide-icon [img]="CartIcon" class="w-5 h-5 text-emerald-600"></lucide-icon> Sales Transactions Summary
+              <svg lucideShoppingCart class="w-5 h-5 text-emerald-600"></svg> Sales Transactions Summary
             </h3>
             <span class="text-xs text-slate-500 font-semibold">{{ salesList.length }} Orders</span>
           </div>
@@ -133,7 +133,7 @@ import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, Shoppi
         <div class="glass-panel p-6 border-slate-200">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <lucide-icon [img]="BagIcon" class="w-5 h-5 text-blue-600"></lucide-icon> Supplier Purchase Receipts
+              <svg lucideShoppingBag class="w-5 h-5 text-blue-600"></svg> Supplier Purchase Receipts
             </h3>
             <span class="text-xs text-slate-500 font-semibold">{{ purchasesList.length }} Receipts</span>
           </div>
@@ -167,17 +167,6 @@ import { LucideAngularModule, BarChart3, TrendingUp, DollarSign, Package, Shoppi
   `
 })
 export class ReportsComponent implements OnInit {
-  BarChartIcon = BarChart3;
-  TrendingUpIcon = TrendingUp;
-  DollarIcon = DollarSign;
-  PackageIcon = Package;
-  CartIcon = ShoppingCart;
-  BagIcon = ShoppingBag;
-  ArrowUpIcon = ArrowUpRight;
-  ArrowDownIcon = ArrowDownRight;
-  LayersIcon = Layers;
-  DownloadIcon = Download;
-
   productsList: Product[] = [];
   salesList: Sale[] = [];
   purchasesList: Purchase[] = [];

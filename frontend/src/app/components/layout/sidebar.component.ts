@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { LucideAngularModule, ShoppingCart, Home, Package, Tag, Truck, Database, ShoppingBag, Store, Barcode, BarChart3, X } from 'lucide-angular';
+import { LucideShoppingCart, LucideHome, LucidePackage, LucideTag, LucideTruck, LucideDatabase, LucideShoppingBag, LucideStore, LucideBarcode, LucideBarChart3, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, LucideAngularModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, LucideShoppingCart, LucideHome, LucidePackage, LucideTag, LucideTruck, LucideDatabase, LucideShoppingBag, LucideStore, LucideBarcode, LucideBarChart3, LucideX],
   template: `
     <!-- Mobile Backdrop Overlay -->
     <div 
@@ -26,7 +26,7 @@ import { LucideAngularModule, ShoppingCart, Home, Package, Tag, Truck, Database,
         <div class="p-5 flex items-center justify-between border-b border-slate-100">
           <div (click)="refreshPage()" title="Click to refresh StockSmart" class="flex items-center gap-3 cursor-pointer hover:bg-slate-50/80 transition-all rounded-xl p-1 -m-1">
             <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20 flex-shrink-0">
-              <lucide-icon [img]="CartIcon" class="w-5 h-5"></lucide-icon>
+              <svg lucideShoppingCart class="w-5 h-5"></svg>
             </div>
             <div>
               <h1 class="text-xl font-bold text-slate-900 tracking-tight leading-tight">StockSmart</h1>
@@ -36,7 +36,7 @@ import { LucideAngularModule, ShoppingCart, Home, Package, Tag, Truck, Database,
 
           <!-- Close button for mobile -->
           <button (click)="closeSidebar.emit()" class="lg:hidden text-slate-400 hover:text-slate-700 p-1 rounded-lg">
-            <lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon>
+            <svg lucideX class="w-5 h-5"></svg>
           </button>
         </div>
 
@@ -44,55 +44,55 @@ import { LucideAngularModule, ShoppingCart, Home, Package, Tag, Truck, Database,
         <nav class="p-3 space-y-1 mt-2">
           <a (click)="onNavClick()" routerLink="/dashboard" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20" [routerLinkActiveOptions]="{exact: true}"
              class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
-            <lucide-icon [img]="HomeIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideHome class="w-4 h-4"></svg>
             <span>Home</span>
           </a>
 
           <a (click)="onNavClick()" routerLink="/products" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
              class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
-            <lucide-icon [img]="ProductsIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucidePackage class="w-4 h-4"></svg>
             <span>Products</span>
           </a>
 
           <a (click)="onNavClick()" routerLink="/categories" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
              class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
-            <lucide-icon [img]="CategoriesIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideTag class="w-4 h-4"></svg>
             <span>Categories</span>
           </a>
 
           <a (click)="onNavClick()" routerLink="/suppliers" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
              class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
-            <lucide-icon [img]="SuppliersIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideTruck class="w-4 h-4"></svg>
             <span>Suppliers</span>
           </a>
 
           <a (click)="onNavClick()" routerLink="/inventory" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
              class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
-            <lucide-icon [img]="InventoryIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideDatabase class="w-4 h-4"></svg>
             <span>Inventory</span>
           </a>
 
           <a (click)="onNavClick()" routerLink="/purchases" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
              class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
-            <lucide-icon [img]="PurchaseIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideShoppingBag class="w-4 h-4"></svg>
             <span>Purchase</span>
           </a>
 
           <a (click)="onNavClick()" routerLink="/sales" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
              class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
-            <lucide-icon [img]="SalesIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideStore class="w-4 h-4"></svg>
             <span>Sales / POS</span>
           </a>
 
           <a (click)="onNavClick()" routerLink="/barcode" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
              class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
-            <lucide-icon [img]="BarcodeIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideBarcode class="w-4 h-4"></svg>
             <span>Barcode Lookup</span>
           </a>
 
           <a (click)="onNavClick()" routerLink="/reports" routerLinkActive="bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
              class="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium transition-all">
-            <lucide-icon [img]="ReportsIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideBarChart3 class="w-4 h-4"></svg>
             <span>Reports</span>
           </a>
         </nav>
@@ -109,18 +109,6 @@ import { LucideAngularModule, ShoppingCart, Home, Package, Tag, Truck, Database,
 export class SidebarComponent {
   @Input() isOpen = false;
   @Output() closeSidebar = new EventEmitter<void>();
-
-  CartIcon = ShoppingCart;
-  HomeIcon = Home;
-  ProductsIcon = Package;
-  CategoriesIcon = Tag;
-  SuppliersIcon = Truck;
-  InventoryIcon = Database;
-  PurchaseIcon = ShoppingBag;
-  SalesIcon = Store;
-  BarcodeIcon = Barcode;
-  ReportsIcon = BarChart3;
-  XIcon = X;
 
   onNavClick() {
     this.closeSidebar.emit();

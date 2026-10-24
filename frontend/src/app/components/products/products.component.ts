@@ -5,12 +5,12 @@ import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { Product, ProductRequest } from '../../models/product.model';
 import { Category } from '../../models/category.model';
-import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, Check, Package } from 'lucide-angular';
+import { LucidePlus, LucideSearch, LucideEdit3, LucideTrash2, LucideFilter, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucidePlus, LucideSearch, LucideEdit3, LucideTrash2, LucideFilter, LucideX],
   template: `
     <div class="space-y-6 animate-fade-in">
       <!-- Header Bar -->
@@ -20,14 +20,14 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
           <p class="text-sm text-slate-500 font-medium">Manage inventory products, SKUs, pricing, and reorder levels</p>
         </div>
         <button (click)="openAddModal()" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
-          <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> Add New Product
+          <svg lucidePlus class="w-4 h-4"></svg> Add New Product
         </button>
       </div>
 
       <!-- Filters & Controls -->
       <div class="glass-panel p-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div class="relative w-full md:w-96">
-          <lucide-icon [img]="SearchIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+          <svg lucideSearch class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></svg>
           <input 
             type="text" 
             [(ngModel)]="searchQuery" 
@@ -38,7 +38,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
 
         <div class="flex items-center gap-3 w-full md:w-auto">
           <div class="flex items-center gap-2">
-            <lucide-icon [img]="FilterIcon" class="w-4 h-4 text-slate-400"></lucide-icon>
+            <svg lucideFilter class="w-4 h-4 text-slate-400"></svg>
             <select [(ngModel)]="selectedCategoryId" class="form-select py-2 text-sm">
               <option [value]="0">All Categories</option>
               <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
@@ -51,7 +51,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
       <!-- Notification Toast -->
       <div *ngIf="toastMessage" class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 text-sm font-semibold flex items-center justify-between">
         <span>{{ toastMessage }}</span>
-        <button (click)="toastMessage = ''" class="text-blue-600 hover:text-blue-900"><lucide-icon [img]="XIcon" class="w-4 h-4"></lucide-icon></button>
+        <button (click)="toastMessage = ''" class="text-blue-600 hover:text-blue-900"><svg lucideX class="w-4 h-4"></svg></button>
       </div>
 
       <!-- Products Data Table -->
@@ -97,10 +97,10 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
                 <td class="text-slate-500 text-xs font-medium">{{ prod.reorderLevel || 10 }} units</td>
                 <td class="text-right space-x-2">
                   <button (click)="openEditModal(prod)" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all">
-                    <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
+                    <svg lucideEdit3 class="w-4 h-4"></svg>
                   </button>
                   <button (click)="confirmDelete(prod)" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all">
-                    <lucide-icon [img]="TrashIcon" class="w-4 h-4"></lucide-icon>
+                    <svg lucideTrash2 class="w-4 h-4"></svg>
                   </button>
                 </td>
               </tr>
@@ -114,7 +114,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-bold text-slate-900">{{ isEditing ? 'Edit Product' : 'Add New Product' }}</h3>
-            <button (click)="closeModal()" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="closeModal()" class="text-slate-400 hover:text-slate-700"><svg lucideX class="w-5 h-5"></svg></button>
           </div>
 
           <form (ngSubmit)="saveProduct()" class="space-y-4">
@@ -187,14 +187,6 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, Barcode, Filter, X, C
   `
 })
 export class ProductsComponent implements OnInit {
-  PlusIcon = Plus;
-  SearchIcon = Search;
-  EditIcon = Edit3;
-  TrashIcon = Trash2;
-  BarcodeIcon = Barcode;
-  FilterIcon = Filter;
-  XIcon = X;
-
   products: Product[] = [];
   categories: Category[] = [];
 

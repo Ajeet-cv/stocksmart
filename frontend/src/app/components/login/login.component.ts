@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-angular';
+import { LucideShoppingCart, LucideLock, LucideMail, LucideUser, LucideArrowRight, LucideCheckCircle2, LucideAlertCircle } from '@lucide/angular';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucideShoppingCart, LucideLock, LucideMail, LucideUser, LucideArrowRight, LucideCheckCircle2, LucideAlertCircle],
   template: `
     <div class="min-h-screen bg-[#f8fafc] flex items-center justify-center p-6 relative overflow-hidden font-sans">
       <!-- Ambient Background Glows -->
@@ -19,7 +19,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
         <!-- Logo Header -->
         <div class="text-center mb-8">
           <div class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-600/20">
-            <lucide-icon [img]="CartIcon" class="w-7 h-7 text-white"></lucide-icon>
+            <svg lucideShoppingCart class="w-7 h-7 text-white"></svg>
           </div>
           <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">StockSmart</h2>
           <p class="text-xs text-slate-500 mt-1 font-medium">Retail Inventory Management System</p>
@@ -49,12 +49,12 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
 
         <!-- Alert Banner -->
         <div *ngIf="errorMessage" class="p-3.5 mb-5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-center gap-2">
-          <lucide-icon [img]="AlertIcon" class="w-4 h-4 flex-shrink-0"></lucide-icon>
+          <svg lucideAlertCircle class="w-4 h-4 flex-shrink-0"></svg>
           <span>{{ errorMessage }}</span>
         </div>
 
         <div *ngIf="successMessage" class="p-3.5 mb-5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium flex items-center gap-2">
-          <lucide-icon [img]="CheckIcon" class="w-4 h-4 flex-shrink-0"></lucide-icon>
+          <svg lucideCheckCircle2 class="w-4 h-4 flex-shrink-0"></svg>
           <span>{{ successMessage }}</span>
         </div>
 
@@ -63,7 +63,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
           <div class="space-y-1.5">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Email Address</label>
             <div class="relative">
-              <lucide-icon [img]="MailIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+              <svg lucideMail class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></svg>
               <input 
                 type="email" 
                 [(ngModel)]="loginEmail" 
@@ -78,7 +78,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
           <div class="space-y-1.5">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Password</label>
             <div class="relative">
-              <lucide-icon [img]="LockIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+              <svg lucideLock class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></svg>
               <input 
                 type="password" 
                 [(ngModel)]="loginPassword" 
@@ -96,7 +96,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
             class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm py-3 rounded-xl transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 mt-4 disabled:opacity-50 cursor-pointer"
           >
             <span>{{ loading ? 'Signing In...' : 'Sign In to Dashboard' }}</span>
-            <lucide-icon [img]="ArrowIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideArrowRight class="w-4 h-4"></svg>
           </button>
         </form>
 
@@ -105,7 +105,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
           <div class="space-y-1.5">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Full Name</label>
             <div class="relative">
-              <lucide-icon [img]="UserIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+              <svg lucideUser class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></svg>
               <input 
                 type="text" 
                 [(ngModel)]="regName" 
@@ -120,7 +120,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
           <div class="space-y-1.5">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Email Address</label>
             <div class="relative">
-              <lucide-icon [img]="MailIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+              <svg lucideMail class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></svg>
               <input 
                 type="email" 
                 [(ngModel)]="regEmail" 
@@ -135,7 +135,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
           <div class="space-y-1.5">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Password</label>
             <div class="relative">
-              <lucide-icon [img]="LockIcon" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></lucide-icon>
+              <svg lucideLock class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></svg>
               <input 
                 type="password" 
                 [(ngModel)]="regPassword" 
@@ -153,7 +153,7 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
             class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm py-3 rounded-xl transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 mt-4 disabled:opacity-50 cursor-pointer"
           >
             <span>{{ loading ? 'Registering...' : 'Register Account' }}</span>
-            <lucide-icon [img]="ArrowIcon" class="w-4 h-4"></lucide-icon>
+            <svg lucideArrowRight class="w-4 h-4"></svg>
           </button>
         </form>
       </div>
@@ -161,14 +161,6 @@ import { LucideAngularModule, ShoppingCart, Lock, Mail, User, ArrowRight, CheckC
   `
 })
 export class LoginComponent {
-  CartIcon = ShoppingCart;
-  LockIcon = Lock;
-  MailIcon = Mail;
-  UserIcon = User;
-  ArrowIcon = ArrowRight;
-  CheckIcon = CheckCircle2;
-  AlertIcon = AlertCircle;
-
   activeTab: 'login' | 'register' = 'login';
   loading = false;
   errorMessage = '';

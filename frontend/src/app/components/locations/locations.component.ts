@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LocationService } from '../../services/location.service';
 import { Location, LocationRequest } from '../../models/location.model';
-import { LucideAngularModule, Plus, Search, Edit3, Trash2, MapPin, X, Building } from 'lucide-angular';
+import { LucidePlus, LucideMapPin, LucideEdit3, LucideTrash2, LucideBuilding, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-locations',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucidePlus, LucideMapPin, LucideEdit3, LucideTrash2, LucideBuilding, LucideX],
   template: `
     <div class="space-y-6 animate-fade-in">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -17,7 +17,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, MapPin, X, Building }
           <p class="text-sm text-slate-500 font-medium">Manage multi-location inventory hubs, stores, and fulfillment facilities</p>
         </div>
         <button (click)="openAddModal()" class="gradient-btn-primary px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
-          <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon> Add New Location
+          <svg lucidePlus class="w-4 h-4"></svg> Add New Location
         </button>
       </div>
 
@@ -27,14 +27,14 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, MapPin, X, Building }
           <div>
             <div class="flex items-center justify-between mb-4">
               <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center">
-                <lucide-icon [img]="MapPinIcon" class="w-5 h-5"></lucide-icon>
+                <svg lucideMapPin class="w-5 h-5"></svg>
               </div>
               <div class="flex gap-2">
                 <button (click)="openEditModal(loc)" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all">
-                  <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
+                  <svg lucideEdit3 class="w-4 h-4"></svg>
                 </button>
                 <button (click)="confirmDelete(loc)" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all">
-                  <lucide-icon [img]="TrashIcon" class="w-4 h-4"></lucide-icon>
+                  <svg lucideTrash2 class="w-4 h-4"></svg>
                 </button>
               </div>
             </div>
@@ -50,7 +50,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, MapPin, X, Building }
             </div>
 
             <p class="text-sm text-slate-600 leading-relaxed flex items-start gap-1.5 mt-3">
-              <lucide-icon [img]="BuildingIcon" class="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5"></lucide-icon>
+              <svg lucideBuilding class="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5"></svg>
               <span>{{ loc.address || 'No address specified' }}</span>
             </p>
           </div>
@@ -67,7 +67,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, MapPin, X, Building }
         <div class="modal-card">
           <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-bold text-slate-900">{{ isEditing ? 'Edit Location' : 'Add Location' }}</h3>
-            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><lucide-icon [img]="XIcon" class="w-5 h-5"></lucide-icon></button>
+            <button (click)="showModal = false" class="text-slate-400 hover:text-slate-700"><svg lucideX class="w-5 h-5"></svg></button>
           </div>
 
           <form (ngSubmit)="saveLocation()" class="space-y-4">
@@ -116,13 +116,7 @@ import { LucideAngularModule, Plus, Search, Edit3, Trash2, MapPin, X, Building }
   `
 })
 export class LocationsComponent implements OnInit {
-  PlusIcon = Plus;
-  SearchIcon = Search;
-  EditIcon = Edit3;
-  TrashIcon = Trash2;
-  MapPinIcon = MapPin;
-  XIcon = X;
-  BuildingIcon = Building;
+
 
   locations: Location[] = [];
   showModal = false;
