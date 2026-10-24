@@ -49,6 +49,7 @@ public class SecurityConfig {
                         ).permitAll()
 
                         .requestMatchers(
+                                "/api/health",
                                 "/api/test"
                         ).permitAll()
 
