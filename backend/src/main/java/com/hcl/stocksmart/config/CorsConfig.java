@@ -22,24 +22,24 @@ public class CorsConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        List<String> origins = new ArrayList<>();
+        List<String> originPatterns = new ArrayList<>();
+
+        // Support Render deployments and local development environments
+        originPatterns.add("https://*.onrender.com");
+        originPatterns.add("http://localhost:*");
+        originPatterns.add("https://localhost:*");
+        originPatterns.add("http://127.0.0.1:*");
+        originPatterns.add("https://127.0.0.1:*");
+
         if (allowedOrigins != null && !allowedOrigins.isBlank()) {
             Arrays.stream(allowedOrigins.split(","))
                     .map(String::trim)
                     .filter(s -> !s.isEmpty())
                     .map(s -> s.endsWith("/") ? s.substring(0, s.length() - 1) : s)
-                    .forEach(origins::add);
+                    .forEach(originPatterns::add);
         }
 
-        // Preserve local development origins
-        if (!origins.contains("http://localhost:4200")) {
-            origins.add("http://localhost:4200");
-        }
-        if (!origins.contains("http://localhost:5173")) {
-            origins.add("http://localhost:5173");
-        }
-
-        configuration.setAllowedOrigins(origins);
+        configuration.setAllowedOriginPatterns(originPatterns);
 
         configuration.setAllowedMethods(
                 List.of(
@@ -54,6 +54,10 @@ public class CorsConfig {
 
         configuration.setAllowedHeaders(
                 List.of("*")
+        );
+
+        configuration.setExposedHeaders(
+                List.of("Authorization", "Content-Type")
         );
 
         configuration.setAllowCredentials(true);

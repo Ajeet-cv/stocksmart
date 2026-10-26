@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, timeout } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest, LoginResponse, RegisterRequest } from '../models/user.model';
 
@@ -17,6 +17,7 @@ export class AuthService {
 
   register(request: RegisterRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/register`, request).pipe(
+      timeout(45000),
       tap(res => {
         if (res && res.token) {
           localStorage.setItem('token', res.token);
@@ -31,6 +32,7 @@ export class AuthService {
 
   login(request: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, request).pipe(
+      timeout(45000),
       tap(res => {
         if (res && res.token) {
           localStorage.setItem('token', res.token);

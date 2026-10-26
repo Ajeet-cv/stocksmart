@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LucideShoppingCart, LucideLock, LucideMail, LucideUser, LucideArrowRight, LucideCheckCircle2, LucideAlertCircle } from '@lucide/angular';
 
@@ -98,6 +99,9 @@ import { LucideShoppingCart, LucideLock, LucideMail, LucideUser, LucideArrowRigh
             <span>{{ loading ? 'Signing In...' : 'Sign In to Dashboard' }}</span>
             <svg lucideArrowRight class="w-4 h-4"></svg>
           </button>
+          <p *ngIf="loading" class="text-xs text-center text-slate-500 mt-2 animate-pulse font-medium">
+            Connecting to server... (Render free tier may take up to a minute to wake up)
+          </p>
         </form>
 
         <!-- REGISTER FORM -->
@@ -155,6 +159,9 @@ import { LucideShoppingCart, LucideLock, LucideMail, LucideUser, LucideArrowRigh
             <span>{{ loading ? 'Registering...' : 'Register Account' }}</span>
             <svg lucideArrowRight class="w-4 h-4"></svg>
           </button>
+          <p *ngIf="loading" class="text-xs text-center text-slate-500 mt-2 animate-pulse font-medium">
+            Connecting to server... (Render free tier may take up to a minute to wake up)
+          </p>
         </form>
       </div>
     </div>
@@ -173,7 +180,11 @@ export class LoginComponent {
   regEmail = '';
   regPassword = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   switchTab(tab: 'login' | 'register') {
     this.activeTab = tab;
@@ -191,22 +202,23 @@ export class LoginComponent {
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.authService.login({ email: this.loginEmail, password: this.loginPassword }).subscribe({
-      next: () => {
-        this.loading = false;
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        this.loading = false;
-        if (err.status === 401 || err.status === 400) {
-          this.errorMessage = 'Invalid username or password.';
-        } else if (err.status === 0) {
-          this.errorMessage = 'Unable to connect to backend server. Please check server status.';
-        } else {
-          this.errorMessage = err?.error?.message || 'Invalid username or password.';
+    this.authService
+      .login({ email: this.loginEmail, password: this.loginPassword })
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+          this.cdr.markForCheck();
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          this.errorMessage = this.extractErrorMessage(err, 'Invalid email or password.');
+          this.cdr.markForCheck();
         }
-      }
-    });
+      });
   }
 
   onRegister() {
@@ -219,21 +231,53 @@ export class LoginComponent {
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.authService.register({ name: this.regName, email: this.regEmail, password: this.regPassword }).subscribe({
-      next: () => {
-        this.loading = false;
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        this.loading = false;
-        if (err.status === 409) {
-          this.errorMessage = 'User with this email already exists.';
-        } else if (err.status === 0) {
-          this.errorMessage = 'Unable to connect to backend server. Please check server status.';
-        } else {
-          this.errorMessage = err?.error?.message || err?.error || 'Registration failed. Please try again.';
+    this.authService
+      .register({ name: this.regName, email: this.regEmail, password: this.regPassword })
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+          this.cdr.markForCheck();
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          this.errorMessage = this.extractErrorMessage(err, 'Registration failed. Please try again.');
+          this.cdr.markForCheck();
         }
+      });
+  }
+
+  private extractErrorMessage(err: any, defaultMsg: string): string {
+    if (err?.name === 'TimeoutError') {
+      return 'Server response timed out. The backend on Render free tier may still be waking up — please retry in a few moments.';
+    }
+    if (err?.status === 0) {
+      return 'Unable to connect to backend server. Please verify backend status and CORS settings.';
+    }
+    if (err?.status === 409) {
+      return 'User with this email already exists.';
+    }
+    if (err?.status === 401) {
+      return 'Invalid email or password.';
+    }
+    if (err?.error) {
+      if (typeof err.error === 'string') {
+        return err.error;
       }
-    });
+      if (typeof err.error.message === 'string') {
+        return err.error.message;
+      }
+      if (typeof err.error.detail === 'string') {
+        return err.error.detail;
+      }
+    }
+    if (err?.message && typeof err.message === 'string') {
+      return err.message;
+    }
+    return defaultMsg;
   }
 }
+
