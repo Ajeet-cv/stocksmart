@@ -11,12 +11,18 @@ describe('LoginComponent', () => {
   let mockAuthService: {
     login: ReturnType<typeof vi.fn>;
     register: ReturnType<typeof vi.fn>;
+    getApiBaseUrl: ReturnType<typeof vi.fn>;
+    checkHealth: ReturnType<typeof vi.fn>;
+    setCustomApiUrl: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(async () => {
     mockAuthService = {
       login: vi.fn(),
-      register: vi.fn()
+      register: vi.fn(),
+      getApiBaseUrl: vi.fn().mockReturnValue('https://stocksmart-backend.onrender.com/api'),
+      checkHealth: vi.fn(),
+      setCustomApiUrl: vi.fn()
     };
 
     await TestBed.configureTestingModule({

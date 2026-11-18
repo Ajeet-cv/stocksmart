@@ -10,15 +10,7 @@ function sanitizeUrl(url: string): string {
 export const environment = {
   production: true,
   get apiUrl(): string {
-    // 1. Explicit runtime config (from app-config.js)
-    if (typeof window !== 'undefined' && (window as any).__STOCKSMART_API_URL__) {
-      const raw = sanitizeUrl((window as any).__STOCKSMART_API_URL__);
-      if (raw) {
-        return raw.endsWith('/api') ? raw : `${raw}/api`;
-      }
-    }
-
-    // 2. Browser localStorage override (useful for testing alternative backend URLs without redeployment)
+    // 1. Browser localStorage override (highest priority - allows instant URL configuration in browser)
     if (typeof window !== 'undefined' && window.localStorage) {
       const stored = window.localStorage.getItem('stocksmart_api_url');
       if (stored) {
@@ -26,6 +18,14 @@ export const environment = {
         if (raw) {
           return raw.endsWith('/api') ? raw : `${raw}/api`;
         }
+      }
+    }
+
+    // 2. Explicit runtime config (from app-config.js)
+    if (typeof window !== 'undefined' && (window as any).__STOCKSMART_API_URL__) {
+      const raw = sanitizeUrl((window as any).__STOCKSMART_API_URL__);
+      if (raw) {
+        return raw.endsWith('/api') ? raw : `${raw}/api`;
       }
     }
 

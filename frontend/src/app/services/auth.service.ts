@@ -8,7 +8,38 @@ import { LoginRequest, LoginResponse, RegisterRequest } from '../models/user.mod
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = `${environment.apiUrl}/auth`;
+  get apiUrl(): string {
+    return `${environment.apiUrl}/auth`;
+  }
+
+  getApiBaseUrl(): string {
+    return environment.apiUrl;
+  }
+
+  setCustomApiUrl(url: string): void {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      let trimmed = url.trim();
+      while (trimmed.endsWith('/')) {
+        trimmed = trimmed.substring(0, trimmed.length - 1);
+      }
+      if (trimmed) {
+        localStorage.setItem('stocksmart_api_url', trimmed);
+      } else {
+        localStorage.removeItem('stocksmart_api_url');
+      }
+    }
+  }
+
+  checkHealth(customBaseUrl?: string): Observable<{ status: string; service?: string }> {
+    let base = customBaseUrl ? customBaseUrl.trim() : environment.apiUrl;
+    while (base.endsWith('/')) {
+      base = base.substring(0, base.length - 1);
+    }
+    const healthUrl = base.endsWith('/api') ? `${base}/health` : `${base}/api/health`;
+    return this.http.get<{ status: string; service?: string }>(healthUrl).pipe(
+      timeout(10000)
+    );
+  }
 
   currentUser = signal<{ email: string; role: string } | null>(this.getStoredUser());
   isLoggedIn = signal<boolean>(!!localStorage.getItem('token'));

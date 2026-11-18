@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -49,9 +49,45 @@ import { LucideShoppingCart, LucideLock, LucideMail, LucideUser, LucideArrowRigh
         </div>
 
         <!-- Alert Banner -->
-        <div *ngIf="errorMessage" class="p-3.5 mb-5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-center gap-2">
-          <svg lucideAlertCircle class="w-4 h-4 flex-shrink-0"></svg>
-          <span>{{ errorMessage }}</span>
+        <div *ngIf="errorMessage" class="p-3.5 mb-5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex flex-col gap-2">
+          <div class="flex items-center gap-2">
+            <svg lucideAlertCircle class="w-4 h-4 flex-shrink-0"></svg>
+            <span>{{ errorMessage }}</span>
+          </div>
+          <button 
+            type="button" 
+            (click)="toggleServerConfig()" 
+            class="text-[11px] font-bold text-blue-700 underline self-start hover:text-blue-900 cursor-pointer"
+          >
+            {{ showServerConfig ? '▲ Close Server URL Settings' : '⚙️ Configure Backend URL' }}
+          </button>
+        </div>
+
+        <!-- Inline Server URL Config Panel -->
+        <div *ngIf="showServerConfig" class="p-3.5 mb-5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-slate-700">Backend API URL</span>
+            <span class="text-[10px] text-slate-500">Render / Local URL</span>
+          </div>
+          <div class="flex gap-2">
+            <input 
+              type="text" 
+              [(ngModel)]="customUrl" 
+              placeholder="https://your-backend.onrender.com/api" 
+              class="flex-1 bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-mono focus:outline-none focus:border-blue-600"
+            />
+            <button 
+              type="button" 
+              (click)="onTestAndSaveServer()" 
+              [disabled]="testStatus === 'testing'"
+              class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-lg text-xs cursor-pointer disabled:opacity-50"
+            >
+              {{ testStatus === 'testing' ? 'Testing...' : 'Save & Test' }}
+            </button>
+          </div>
+          <div *ngIf="testStatusMsg" [class.text-emerald-700]="testStatus === 'success'" [class.text-rose-600]="testStatus === 'error'" [class.text-slate-600]="testStatus === 'testing'" class="text-[11px] font-medium">
+            {{ testStatusMsg }}
+          </div>
         </div>
 
         <div *ngIf="successMessage" class="p-3.5 mb-5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium flex items-center gap-2">
@@ -163,11 +199,26 @@ import { LucideShoppingCart, LucideLock, LucideMail, LucideUser, LucideArrowRigh
             Connecting to server... (Render free tier may take up to a minute to wake up)
           </p>
         </form>
+
+        <!-- Server Connection Bar -->
+        <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+          <span class="flex items-center gap-1.5 truncate max-w-[270px]">
+            <span class="w-2 h-2 rounded-full" [class.bg-emerald-500]="testStatus === 'success'" [class.bg-rose-500]="testStatus === 'error'" [class.bg-slate-400]="testStatus === 'idle' || testStatus === 'testing'"></span>
+            Server: <span class="font-mono text-slate-700 truncate">{{ authService.getApiBaseUrl() }}</span>
+          </span>
+          <button 
+            type="button" 
+            (click)="toggleServerConfig()" 
+            class="text-blue-600 hover:text-blue-800 font-semibold cursor-pointer shrink-0 ml-2"
+          >
+            {{ showServerConfig ? 'Close' : 'Change' }}
+          </button>
+        </div>
       </div>
     </div>
   `
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   activeTab: 'login' | 'register' = 'login';
   loading = false;
   errorMessage = '';
@@ -180,11 +231,51 @@ export class LoginComponent {
   regEmail = '';
   regPassword = '';
 
+  showServerConfig = false;
+  customUrl = '';
+  testStatus: 'idle' | 'testing' | 'success' | 'error' = 'idle';
+  testStatusMsg = '';
+
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
+
+  ngOnInit() {
+    this.customUrl = this.authService.getApiBaseUrl();
+  }
+
+  toggleServerConfig() {
+    this.showServerConfig = !this.showServerConfig;
+    if (this.showServerConfig) {
+      this.customUrl = this.authService.getApiBaseUrl();
+      this.testStatus = 'idle';
+      this.testStatusMsg = '';
+    }
+  }
+
+  onTestAndSaveServer() {
+    if (!this.customUrl || !this.customUrl.trim()) return;
+    this.testStatus = 'testing';
+    this.testStatusMsg = `Testing connection to ${this.customUrl}...`;
+    this.cdr.markForCheck();
+
+    this.authService.checkHealth(this.customUrl).subscribe({
+      next: (res) => {
+        this.authService.setCustomApiUrl(this.customUrl);
+        this.testStatus = 'success';
+        this.testStatusMsg = `Connected! (Service: ${res?.service || 'UP'})`;
+        this.errorMessage = '';
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.testStatus = 'error';
+        this.testStatusMsg = `Cannot reach server at ${this.customUrl}. Check URL and ensure backend is active on Render.`;
+        this.cdr.markForCheck();
+      }
+    });
+  }
 
   switchTab(tab: 'login' | 'register') {
     this.activeTab = tab;
@@ -255,7 +346,9 @@ export class LoginComponent {
       return 'Server response timed out. The backend on Render free tier may still be waking up — please retry in a few moments.';
     }
     if (err?.status === 0) {
-      return 'Unable to connect to backend server. Please verify backend status and CORS settings.';
+      this.showServerConfig = true;
+      this.customUrl = this.authService.getApiBaseUrl();
+      return `Unable to connect to backend server at ${this.authService.getApiBaseUrl()}. Please verify your backend URL in Server Settings below.`;
     }
     if (err?.status === 409) {
       return 'User with this email already exists.';
