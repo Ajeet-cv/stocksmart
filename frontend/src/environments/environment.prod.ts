@@ -1,11 +1,17 @@
-function sanitizeUrl(url: string): string {
+function sanitizeApiUrl(url: string): string {
   if (!url) return '';
   let trimmed = url.trim();
   while (trimmed.endsWith('/')) {
     trimmed = trimmed.substring(0, trimmed.length - 1);
   }
-  return trimmed;
+  while (trimmed.endsWith('/api/api')) {
+    trimmed = trimmed.substring(0, trimmed.length - 4);
+  }
+  if (!trimmed) return '';
+  return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
 }
+
+const DEFAULT_PROD_API_URL = 'https://stocksmart-backend-3rxv.onrender.com/api';
 
 export const environment = {
   production: true,
@@ -14,35 +20,22 @@ export const environment = {
     if (typeof window !== 'undefined' && window.localStorage) {
       const stored = window.localStorage.getItem('stocksmart_api_url');
       if (stored) {
-        const raw = sanitizeUrl(stored);
-        if (raw) {
-          return raw.endsWith('/api') ? raw : `${raw}/api`;
+        const sanitized = sanitizeApiUrl(stored);
+        if (sanitized) {
+          return sanitized;
         }
       }
     }
 
-    // 2. Explicit runtime config (from app-config.js)
+    // 2. Explicit runtime config (from app-config.js if present)
     if (typeof window !== 'undefined' && (window as any).__STOCKSMART_API_URL__) {
-      const raw = sanitizeUrl((window as any).__STOCKSMART_API_URL__);
-      if (raw) {
-        return raw.endsWith('/api') ? raw : `${raw}/api`;
+      const runtimeConfig = sanitizeApiUrl((window as any).__STOCKSMART_API_URL__);
+      if (runtimeConfig) {
+        return runtimeConfig;
       }
     }
 
-    // 3. Render cloud auto-resolution:
-    // If running on Render frontend (e.g., https://stocksmart-frontend.onrender.com),
-    // automatically target the corresponding backend service.
-    if (typeof window !== 'undefined' && window.location && window.location.hostname) {
-      const host = window.location.hostname;
-      if (host.endsWith('.onrender.com')) {
-        if (host.includes('stocksmart-frontend')) {
-          const backendHost = host.replace('stocksmart-frontend', 'stocksmart-backend');
-          return `https://${backendHost}/api`;
-        }
-        return 'https://stocksmart-backend.onrender.com/api';
-      }
-    }
-
-    return '/api';
+    // 3. Default to the deployed StockSmart backend on Render
+    return DEFAULT_PROD_API_URL;
   }
 };

@@ -20,7 +20,7 @@ describe('LoginComponent', () => {
     mockAuthService = {
       login: vi.fn(),
       register: vi.fn(),
-      getApiBaseUrl: vi.fn().mockReturnValue('https://stocksmart-backend.onrender.com/api'),
+      getApiBaseUrl: vi.fn().mockReturnValue('https://stocksmart-backend-3rxv.onrender.com/api'),
       checkHealth: vi.fn(),
       setCustomApiUrl: vi.fn()
     };

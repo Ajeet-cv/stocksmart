@@ -1,11 +1,18 @@
-function sanitizeUrl(url: string): string {
+function sanitizeApiUrl(url: string): string {
   if (!url) return '';
   let trimmed = url.trim();
   while (trimmed.endsWith('/')) {
     trimmed = trimmed.substring(0, trimmed.length - 1);
   }
-  return trimmed;
+  while (trimmed.endsWith('/api/api')) {
+    trimmed = trimmed.substring(0, trimmed.length - 4);
+  }
+  if (!trimmed) return '';
+  return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
 }
+
+const LOCAL_DEV_API_URL = 'http://localhost:5656/api';
+const DEPLOYED_BACKEND_API_URL = 'https://stocksmart-backend-3rxv.onrender.com/api';
 
 export const environment = {
   production: false,
@@ -14,8 +21,8 @@ export const environment = {
     if (typeof window !== 'undefined' && window.localStorage) {
       const stored = window.localStorage.getItem('stocksmart_api_url');
       if (stored) {
-        const raw = sanitizeUrl(stored);
-        if (raw) return raw.endsWith('/api') ? raw : `${raw}/api`;
+        const sanitized = sanitizeApiUrl(stored);
+        if (sanitized) return sanitized;
       }
     }
 
@@ -23,15 +30,16 @@ export const environment = {
     if (typeof window !== 'undefined' && window.location) {
       const host = window.location.hostname;
       if (host === 'localhost' || host === '127.0.0.1') {
-        return 'http://localhost:5656/api';
+        return LOCAL_DEV_API_URL;
       }
     }
 
-    // 3. Fallback to window config or localhost
+    // 3. Fallback to runtime config or deployed backend
     if (typeof window !== 'undefined' && (window as any).__STOCKSMART_API_URL__) {
-      const raw = sanitizeUrl((window as any).__STOCKSMART_API_URL__);
-      if (raw) return raw.endsWith('/api') ? raw : `${raw}/api`;
+      const runtimeConfig = sanitizeApiUrl((window as any).__STOCKSMART_API_URL__);
+      if (runtimeConfig) return runtimeConfig;
     }
-    return 'http://localhost:5656/api';
+
+    return DEPLOYED_BACKEND_API_URL;
   }
 };

@@ -24,9 +24,9 @@ RUN chown -R appuser:appgroup /app
 
 USER appuser
 
-# Default port (Render injects PORT at runtime)
-ENV PORT=5656
-EXPOSE 5656
+# Render standard port (Render injects PORT at runtime)
+ENV PORT=10000
+EXPOSE 10000
 
-# Start application
-ENTRYPOINT ["sh", "-c", "java -Djava.security.egd=file:/dev/./urandom -jar app.jar"]
+# Start application binding to 0.0.0.0 on Render PORT
+ENTRYPOINT ["sh", "-c", "java -Dserver.port=${PORT:-10000} -Dserver.address=0.0.0.0 -Djava.security.egd=file:/dev/./urandom -jar app.jar"]

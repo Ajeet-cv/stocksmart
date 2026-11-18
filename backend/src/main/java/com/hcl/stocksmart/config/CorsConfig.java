@@ -19,37 +19,35 @@ public class CorsConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration configuration = new CorsConfiguration();
 
         List<String> originPatterns = new ArrayList<>();
 
-        // Support Render deployments and local development environments
-        originPatterns.add("https://*.onrender.com");
+        // Standard local development origins
         originPatterns.add("http://localhost:*");
         originPatterns.add("https://localhost:*");
         originPatterns.add("http://127.0.0.1:*");
         originPatterns.add("https://127.0.0.1:*");
+
+        // Cloud deployments (Render and subdomains)
+        originPatterns.add("https://*.onrender.com");
 
         if (allowedOrigins != null && !allowedOrigins.isBlank()) {
             Arrays.stream(allowedOrigins.split(","))
                     .map(String::trim)
                     .filter(s -> !s.isEmpty())
                     .map(s -> s.endsWith("/") ? s.substring(0, s.length() - 1) : s)
-                    .forEach(originPatterns::add);
+                    .forEach(s -> {
+                        if (!originPatterns.contains(s)) {
+                            originPatterns.add(s);
+                        }
+                    });
         }
 
         configuration.setAllowedOriginPatterns(originPatterns);
 
         configuration.setAllowedMethods(
-                List.of(
-                        "GET",
-                        "POST",
-                        "PUT",
-                        "DELETE",
-                        "OPTIONS",
-                        "PATCH"
-                )
+                List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD")
         );
 
         configuration.setAllowedHeaders(
@@ -57,18 +55,14 @@ public class CorsConfig {
         );
 
         configuration.setExposedHeaders(
-                List.of("Authorization", "Content-Type")
+                List.of("Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With")
         );
 
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
 
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
-
-        source.registerCorsConfiguration(
-                "/**",
-                configuration
-        );
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }
