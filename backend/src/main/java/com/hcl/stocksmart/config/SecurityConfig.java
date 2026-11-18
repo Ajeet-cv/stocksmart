@@ -1,9 +1,14 @@
+
 package com.hcl.stocksmart.config;
 
-import com.hcl.stocksmart.security.CustomUserDetailsService;
 import com.hcl.stocksmart.security.JwtAuthenticationFilter;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import org.springframework.http.HttpMethod;
+
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,9 +21,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtFilter;
 
-    public SecurityConfig(
-            JwtAuthenticationFilter jwtFilter) {
-
+    public SecurityConfig(JwtAuthenticationFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
     }
 
@@ -29,41 +32,47 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(
-            HttpSecurity http)
-            throws Exception {
+            HttpSecurity http) throws Exception {
 
         http
-                .cors(org.springframework.security.config.Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable())
+            .cors(Customizer.withDefaults())
 
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS
-                        )
+            .csrf(csrf -> csrf.disable())
+
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(
+                    SessionCreationPolicy.STATELESS
                 )
+            )
 
-                .authorizeHttpRequests(auth -> auth
+            .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers(
-                                "/api/auth/**"
-                        ).permitAll()
+                // Allow CORS preflight requests
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        .requestMatchers(
-                                "/api/health",
-                                "/api/test"
-                        ).permitAll()
+                // Public root and error endpoints
+                .requestMatchers("/", "/error").permitAll()
 
-                        .requestMatchers(
-                                "/api/reports/**"
-                        ).authenticated()
+                // Public authentication endpoints
+                .requestMatchers("/api/auth/**").permitAll()
 
-                        .anyRequest().authenticated()
-                )
+                // Public health and test endpoints
+                .requestMatchers(
+                    "/api/health",
+                    "/api/test"
+                ).permitAll()
 
-                .addFilterBefore(
-                        jwtFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                );
+                // Protected reports
+                .requestMatchers("/api/reports/**").authenticated()
+
+                // All other endpoints require authentication
+                .anyRequest().authenticated()
+            )
+
+            .addFilterBefore(
+                jwtFilter,
+                UsernamePasswordAuthenticationFilter.class
+            );
 
         return http.build();
     }
